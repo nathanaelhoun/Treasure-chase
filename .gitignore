@@ -9,6 +9,7 @@
 
 #IntelliJ IDEA files
 Treasure-chase.iml
+.idea/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
