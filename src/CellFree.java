@@ -17,6 +17,41 @@ public class CellFree extends Cell {
     }
 
     @Override
+    public void setTreasure(CellTreasure c) {
+        this.treasure = c;
+        this.directionToTheTreasure = this.computeDirectionToTheTreasure();
+    }
+
+    public void setHunter(Hunter h) {
+        if (this.currentHunter != null) {
+            System.err.println("Il y a déjà un Hunter dans cette case");
+            return;
+        }
+
+        this.currentHunter = h;
+    }
+
+    public void removeHunter() {
+        this.currentHunter = null;
+    }
+
+    @Override
+    public String toString() {
+        if (this.currentHunter == null) {
+            return "·";
+        }
+
+        return currentHunter.toString();
+    }
+
+    /**
+     * When a hunter aims to this cell, he is :
+     * - redirected to a random direction if the cell is taken by another hunter
+     * - moved to the current cell and redirected to the best direction to the treasure if the cell is free
+     *
+     * @param h the Hunter to process
+     */
+    @Override
     public void process(Hunter h) {
         if (this.currentHunter != null) {
             h.setDirection(Direction.getRandom());
@@ -29,39 +64,13 @@ public class CellFree extends Cell {
         h.setDirection(this.directionToTheTreasure);
     }
 
-    @Override
-    public String toString() {
-        if (this.currentHunter == null) {
-            return "·";
-        }
-
-        return currentHunter.toString();
-    }
-
-    public void setHunter(Hunter h) {
-        if (this.currentHunter != null) {
-            System.err.println("Il y a déjà un Hunter dans cette case");
-        }
-
-        this.currentHunter = h;
-    }
-
-    @Override
-    public void setTreasure(CellTreasure c) {
-        this.treasure = c;
-        this.directionToTheTreasure = this.computeDirectionToTheTreasure();
-    }
-
-    public void removeHunter() {
-        this.currentHunter = null;
-    }
-
     /**************************************************************************
      * 							Utilities
      *************************************************************************/
 
     /**
-     * Search where is the treasure for the current cell
+     * Search the direction to the treasure from the current cell
+     *
      * @return the direction to the treasure
      */
     private Direction computeDirectionToTheTreasure() {

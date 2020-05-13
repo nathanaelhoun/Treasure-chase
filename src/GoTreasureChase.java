@@ -4,7 +4,6 @@
  * @author Nathanaël Houn
  */
 public class GoTreasureChase {
-
     /**
      * @param args
      */
@@ -12,16 +11,18 @@ public class GoTreasureChase {
         Board board = new Board(12, 12);
 
         board.initialiseHunters(3);
-        board.initialiseBoard();
+        board.boardMakePrefabOne();
 
+        // Variable to stop in case of infinite loop
         int toDoDevTemp = 0;
+
         do {
-            board.processHunters();
-            board.printBoard();
+            board.doRound();
+            System.out.println(board.toString());
             ++toDoDevTemp;
         } while (!board.isWinner() && toDoDevTemp < 200);
 
-        board.printBoard();
+        System.out.println(board.toString());
 
         System.out.format("Nombre de tours : %d\nGagnant : %s\n", toDoDevTemp, board.getWinner());
     }

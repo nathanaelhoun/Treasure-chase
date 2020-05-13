@@ -25,7 +25,38 @@ public class Board {
         this.treasure = null;
     }
 
-    public void initialiseBoard() {
+    @Override
+    public String toString() {
+        String board = "";
+        for (ArrayList<Cell> line : cells) {
+            for (Cell cell : line) {
+                board += cell.toString();
+            }
+            board += '\n';
+        }
+
+        return board;
+    }
+
+    /**
+     * Place the cells on the board like this
+     * <p>
+     * ++++++++++++++
+     * +············+
+     * +············+
+     * +···#········+
+     * +·T·#·····A··+
+     * +···#········+
+     * +···#········+
+     * +···#··###···+
+     * +···#···C····+
+     * +···#····B···+
+     * +············+
+     * +············+
+     * +············+
+     * ++++++++++++++
+     */
+    public void boardMakePrefabOne() {
         initialiseTopLeftAndBottomSides();
 
         initialiseEmptyLine(1);
@@ -53,6 +84,11 @@ public class Board {
         }
     }
 
+    /**
+     * Initialise the hunter array but don't place the hunters on the board
+     *
+     * @param numberOfHunters the number of hunter to generate
+     */
     public void initialiseHunters(int numberOfHunters) {
         for (int i = 0; i < numberOfHunters; i++) {
             String name = "" + (char) (i + 'A');
@@ -60,16 +96,14 @@ public class Board {
         }
     }
 
-    public void printBoard() {
-        for (ArrayList<Cell> line : cells) {
-            for (Cell cell : line) {
-                System.out.print(cell.toString());
-            }
-            System.out.print('\n');
-        }
-    }
-
-    public void processHunters() {
+    /**
+     * Do a round of the game
+     * <p>
+     * Move all the hunters one after the other
+     * Update their position if needed
+     * Output the changes done to the console
+     */
+    public void doRound() {
         for (Hunter h : this.hunters) {
             System.out.println("Personnage " + h.toString() + ": ");
             System.out.println(h.getDescription());
@@ -84,10 +118,20 @@ public class Board {
         }
     }
 
+    /**
+     * @return true if a hunter is aiming to the Treasure cell
+     */
     public boolean isWinner() {
         return this.treasure.getWinner() != null;
     }
 
+    /**
+     * Get the winner of the game
+     * <p>
+     * Please call isWinner() before
+     *
+     * @return the instance of the winner Hunter
+     */
     public Hunter getWinner() {
         return this.treasure.getWinner();
     }
@@ -96,6 +140,11 @@ public class Board {
      * 							Utilities
      *************************************************************************/
 
+    /**
+     * Find the position of the treasure on the board
+     *
+     * @return the instance of the treasure from the board
+     */
     private CellTreasure getTreasure() {
         for (ArrayList<Cell> line : cells) {
             for (Cell cell : line) {
@@ -173,6 +222,12 @@ public class Board {
         }
     }
 
+    /**
+     * Get the instance of a hunter from the list by his name
+     *
+     * @param name the name of the wanted hunter
+     * @return the instance of the hunter from this.hunters
+     */
     private Hunter getHunterByName(String name) {
         int size = this.hunters.size();
         for (int i = 0; i < size; ++i) {

@@ -7,8 +7,19 @@
  */
 public class Hunter {
 
+    /**
+     * Name of the Hunter
+     */
     private String name;
+
+    /**
+     * Current direction of the Hunter
+     */
     private Direction direction;
+
+    /**
+     * Instance of the cell where the hunter is
+     */
     private CellFree currentCell;
 
     public Hunter(String name) {
@@ -20,14 +31,19 @@ public class Hunter {
         return this.name;
     }
 
-    public void setCurrentCell(CellFree c) {
-        this.currentCell = c;
-    }
-
     public CellFree getCurrentCell() {
         return this.currentCell;
     }
 
+    public void setCurrentCell(CellFree c) {
+        this.currentCell = c;
+    }
+
+    /**
+     * Return a string with the position and the direction of the hunter
+     *
+     * @return String
+     */
     public String getDescription() {
         return "Hunter " + this.currentCell.getPosition().toString() + " dir : " + this.direction;
     }
@@ -43,6 +59,11 @@ public class Hunter {
         this.direction = d;
     }
 
+    /**
+     * Compute the wanted position, by adding the direction to the current position of the hunter
+     *
+     * @return a new instance of the wanted position
+     */
     public Position getWantedPosition() {
         Position wantedPosition = new Position(this.currentCell.getPosition().getX(), this.currentCell.getPosition().getY());
 
