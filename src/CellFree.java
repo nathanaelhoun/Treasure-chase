@@ -2,11 +2,11 @@
  * Treasure chase
  *
  * @author Nathanaël Houn
- *
  */
 public class CellFree extends Cell {
 
     private Hunter currentHunter;
+    private Direction directionToTheTreasure;
 
     /**
      * @param p Cell position in the map
@@ -18,8 +18,15 @@ public class CellFree extends Cell {
 
     @Override
     public void process(Hunter h) {
-        // TODO Auto-generated method stub
+        if (this.currentHunter != null) {
+            h.setDirection(Direction.getRandom());
+            return;
+        }
 
+        h.getCurrentCell().removeHunter();
+        this.currentHunter = h;
+        h.setCurrentCell(this);
+        h.setDirection(this.directionToTheTreasure);
     }
 
     @Override
@@ -31,7 +38,7 @@ public class CellFree extends Cell {
         return currentHunter.toString();
     }
 
-    public void setHunter (Hunter h) {
+    public void setHunter(Hunter h) {
         if (this.currentHunter != null) {
             System.err.println("Il y a déjà un Hunter dans cette case");
         }
@@ -39,10 +46,39 @@ public class CellFree extends Cell {
         this.currentHunter = h;
     }
 
-    public Hunter popHunter() {
-        Hunter temp = this.currentHunter;
-        this.currentHunter = null;
-        return temp;
+    @Override
+    public void setTreasure(CellTreasure c) {
+        this.treasure = c;
+        this.directionToTheTreasure = this.computeDirectionToTheTreasure();
     }
 
+    public void removeHunter() {
+        this.currentHunter = null;
+    }
+
+    /**************************************************************************
+     * 							Utilities
+     *************************************************************************/
+
+    /**
+     * Search where is the treasure for the current cell
+     * @return the direction to the treasure
+     */
+    private Direction computeDirectionToTheTreasure() {
+        Direction directionToTheTreasure = Direction.SOUTH_WEST; // initialised with a random useless value
+
+        int lowerDistance = Integer.MAX_VALUE;
+
+        for (Direction dir : Direction.values()) {
+            Position testPosition = this.position.currentPositionPlusDirection(dir);
+            int testedDistance = this.treasure.distanceWith(testPosition);
+            if (testedDistance < lowerDistance) {
+                lowerDistance = testedDistance;
+                directionToTheTreasure = dir;
+            }
+        }
+
+        return directionToTheTreasure;
+    }
 }
+

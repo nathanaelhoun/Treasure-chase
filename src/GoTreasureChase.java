@@ -1,7 +1,7 @@
 /**
  * Treasure chase
- * @author Nathanaël Houn
  *
+ * @author Nathanaël Houn
  */
 public class GoTreasureChase {
 
@@ -14,7 +14,16 @@ public class GoTreasureChase {
         board.initialiseHunters(3);
         board.initialiseBoard();
 
+        int toDoDevTemp = 0;
+        do {
+            board.processHunters();
+            board.printBoard();
+            ++toDoDevTemp;
+        } while (!board.isWinner() && toDoDevTemp < 200);
+
         board.printBoard();
+
+        System.out.format("Nombre de tours : %d\nGagnant : %s\n", toDoDevTemp, board.getWinner());
     }
 
 }

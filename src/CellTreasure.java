@@ -5,16 +5,18 @@
  */
 public class CellTreasure extends Cell {
 
+    private Hunter winner;
+
     /**
      * @param p Cell position in the map
      */
     public CellTreasure(Position p) {
         super(p);
+        this.winner = null;
     }
 
     public void process(Hunter h) {
-        // TODO Auto-generated method stub
-
+        this.winner = h;
     }
 
     @Override
@@ -22,4 +24,7 @@ public class CellTreasure extends Cell {
         return "T";
     }
 
+    public Hunter getWinner() {
+        return this.winner;
+    }
 }

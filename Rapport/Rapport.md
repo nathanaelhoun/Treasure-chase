@@ -28,6 +28,11 @@ Ce qui a été développé, testé, non implanté, abandonné
 
 Bilan technique sur les outils utilisés, difficultés de programmation rencontrées
 
+### Changements sur le diagramme de classe initial
+
+- Hunter possède une case courante `currentCell` plutôt qu'une position courante : la position courante est accessible depuis la case courante, et ainsi on peut libérer la case courante depuis le Hunter lors du `process` 
+
+
 ## Conclusion
 
 Bilan par rapport au travail en monôme, par rapport à la formation
