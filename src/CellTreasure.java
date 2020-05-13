@@ -1,7 +1,7 @@
 /**
  * Treasure chase
- * @author Nathanaël Houn
  *
+ * @author Nathanaël Houn
  */
 public class CellTreasure extends Cell {
 
@@ -15,6 +15,12 @@ public class CellTreasure extends Cell {
         this.winner = null;
     }
 
+    /**
+     * If a hunter aims to this cell, so he is the winner !
+     *
+     * @param h the Hunter to process
+     */
+    @Override
     public void process(Hunter h) {
         this.winner = h;
     }

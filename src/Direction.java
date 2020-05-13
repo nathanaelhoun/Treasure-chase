@@ -6,7 +6,39 @@
  * The 8 possible directions of a Hunter in a Cell
  */
 public enum Direction {
-    EAST, NORTH_EAST, NORTH, NORTH_WEST, WEST, SOUTH_WEST, SOUTH, SOUTH_EAST;
+
+    /**
+     * Position à droite, numéro 1
+     */
+    EAST,
+    /**
+     * Position en haut à droite, numéro 2
+     */
+    NORTH_EAST,
+    /**
+     * Position en haut, numéro 3
+     */
+    NORTH,
+    /**
+     * Position en haut à gauche, numéro 4
+     */
+    NORTH_WEST,
+    /**
+     * Position à gauche, numéro 5
+     */
+    WEST,
+    /**
+     * Position en bas à gauche, numéro 6
+     */
+    SOUTH_WEST,
+    /**
+     * Position à gauche, numéro 7
+     */
+    SOUTH,
+    /**
+     * Position en bas à droite, numéro 8
+     */
+    SOUTH_EAST;
 
 
     private static Direction[] vals = values();
@@ -42,7 +74,7 @@ public enum Direction {
     }
 
     /**
-     * Return the opposite direction (for example, the opposite of TOP_RIGHT is BOTTOM_LEFT
+     * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST
      *
      * @param dir the current direction
      * @return the opposite direction
@@ -52,7 +84,7 @@ public enum Direction {
     }
 
     /**
-     * @return a random direction.
+     * @return a random direction
      */
     public static Direction getRandom() {
         return vals[(int) Math.random() * (vals.length)];
