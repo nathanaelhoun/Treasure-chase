@@ -2,13 +2,14 @@ import java.util.ArrayList;
 
 /**
  * Treasure chase
- * @author Nathanaël Houn
  *
+ * @author Nathanaël Houn
  */
 public class Board {
     private final int boardHeight;
     private final int boardWidth;
     private ArrayList<ArrayList<Cell>> cells;
+    private CellTreasure treasure;
     private ArrayList<Hunter> hunters;
 
     public Board(int boardHeight, int boardWidth) {
@@ -21,6 +22,7 @@ public class Board {
         }
 
         this.hunters = new ArrayList<Hunter>();
+        this.treasure = null;
     }
 
     public void initialiseBoard() {
@@ -29,19 +31,26 @@ public class Board {
         initialiseEmptyLine(1);
         initialiseEmptyLine(2);
 
-        initialiseLine(3, new String[] {".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(4, new String[] {".", "T", ".", "#V", ".", ".", ".", ".", ".", "A", ".", "."});
-        initialiseLine(5, new String[] {".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(6, new String[] {".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(7, new String[] {".", ".", ".", "#V", ".", ".", "#H", "#H", "#H", ".", ".", "."});
-        initialiseLine(8, new String[] {".", ".", ".", "#V", ".", ".", ".", "C", ".", ".", ".", "."});
-        initialiseLine(9, new String[] {".", ".", ".", "#V", ".", ".", ".", ".", "B", ".", ".", "."});
+        initialiseLine(3, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+        initialiseLine(4, new String[]{".", "T", ".", "#V", ".", ".", ".", ".", ".", "A", ".", "."});
+        initialiseLine(5, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+        initialiseLine(6, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+        initialiseLine(7, new String[]{".", ".", ".", "#V", ".", ".", "#H", "#H", "#H", ".", ".", "."});
+        initialiseLine(8, new String[]{".", ".", ".", "#V", ".", ".", ".", "C", ".", ".", ".", "."});
+        initialiseLine(9, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", "B", ".", ".", "."});
 
         initialiseEmptyLine(10);
         initialiseEmptyLine(11);
         initialiseEmptyLine(12);
 
         initialiseRightSide();
+
+        this.treasure = this.getTreasure();
+        for (ArrayList<Cell> line : cells) {
+            for (Cell c : line) {
+                c.setTreasure(this.treasure);
+            }
+        }
     }
 
     public void initialiseHunters(int numberOfHunters) {
@@ -60,9 +69,44 @@ public class Board {
         }
     }
 
+    public void processHunters() {
+        for (Hunter h : this.hunters) {
+            System.out.println("Personnage " + h.toString() + ": ");
+            System.out.println(h.getDescription());
+
+            Position wantedPos = h.getWantedPosition();
+            System.out.println("Case cible : " + wantedPos.toString());
+
+            this.cells.get(wantedPos.getY()).get(wantedPos.getX()).process(h);
+            System.out.println("Best dir : " + h.getDirection());
+
+            System.out.println(" -> " + h.getDescription() + "\n");
+        }
+    }
+
+    public boolean isWinner() {
+        return this.treasure.getWinner() != null;
+    }
+
+    public Hunter getWinner() {
+        return this.treasure.getWinner();
+    }
+
     /**************************************************************************
      * 							Utilities
      *************************************************************************/
+
+    private CellTreasure getTreasure() {
+        for (ArrayList<Cell> line : cells) {
+            for (Cell cell : line) {
+                if (cell.toString() == "T") {
+                    return (CellTreasure) cell;
+                }
+            }
+        }
+
+        return null;
+    }
 
     private void initialiseTopLeftAndBottomSides() {
         for (int x = 0; x < this.boardWidth + 2; ++x) {
@@ -101,7 +145,7 @@ public class Board {
             Position pos = new Position(x, lineY);
             Cell newCell;
 
-            switch(toSet[x - 1]) {
+            switch (toSet[x - 1]) {
                 case "#V":
                     newCell = new CellStone(pos, CellStone.Orientation.VERTICAL);
                     break;
@@ -122,7 +166,7 @@ public class Board {
                     newCell = new CellFree(pos);
                     Hunter h = getHunterByName(toSet[x - 1]);
                     ((CellFree) newCell).setHunter(h);
-                    h.setPosition(pos.getX(), pos.getY());
+                    h.setCurrentCell((CellFree) newCell);
             }
 
             this.cells.get(lineY).add(newCell);
@@ -132,10 +176,10 @@ public class Board {
     private Hunter getHunterByName(String name) {
         int size = this.hunters.size();
         for (int i = 0; i < size; ++i) {
-            if (this.hunters.get(i).getName().equals(name)) {
+            if (this.hunters.get(i).toString().equals(name)) {
                 return this.hunters.get(i);
             }
-    }
+        }
 
         return null;
     }

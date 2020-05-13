@@ -15,8 +15,7 @@ public class CellSide extends Cell {
 
     @Override
     public void process(Hunter h) {
-        // TODO Auto-generated method stub
-
+        h.setDirection(Direction.reverse(h.getDirection()));
     }
 
     @Override
