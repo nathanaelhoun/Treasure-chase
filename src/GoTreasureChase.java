@@ -10,5 +10,4 @@ public class GoTreasureChase {
         Window gameWindow = new Window(12, 12, 3);
         gameWindow.start();
     }
-
 }
