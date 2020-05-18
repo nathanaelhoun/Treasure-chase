@@ -20,7 +20,7 @@ public class Hunter {
     /**
      * Instance of the cell where the hunter is
      */
-    private CellFree currentCell;
+    private Cell currentCell;
 
     public Hunter(String name) {
         this.name = name;
@@ -32,10 +32,10 @@ public class Hunter {
     }
 
     public CellFree getCurrentCell() {
-        return this.currentCell;
+        return (CellFree) this.currentCell;
     }
 
-    public void setCurrentCell(CellFree c) {
+    public void setCurrentCell(Cell c) {
         this.currentCell = c;
     }
 
