@@ -22,11 +22,17 @@ public class CellTreasure extends Cell {
      */
     @Override
     public void process(Hunter h) {
+        h.getCurrentCell().removeHunter();
+        h.setCurrentCell(this);
         this.winner = h;
     }
 
     @Override
     public String toString() {
+        if (this.winner != null) {
+            return this.winner.toString();
+        }
+
         return "T";
     }
 
