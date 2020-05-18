@@ -111,9 +111,11 @@ public class Controller implements ActionListener {
 
             if (this.board.getWinner() == h) {
                 str += " ** WINNER ** ";
+            } else {
+                str += "Position actuelle :  " + h.getCurrentCell().getPosition().toString() + " | Meilleure direction : " + h.getDirection().toString();
             }
 
-            str += h.getDescription() + newline;
+            str += newline;
         }
 
         this.window.getLabelStatus().setText(str);
