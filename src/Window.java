@@ -43,15 +43,12 @@ public class Window extends JFrame {
 
         // Main panels
         JPanel actionPanel = new JPanel();
-        actionPanel.setBackground(Color.BLUE);
         container.add("North", actionPanel);
 
         JPanel boardPanel = new JPanel(new GridLayout(boardHeight + 2, boardWidth + 2));
-        boardPanel.setBackground(Color.GREEN);
         container.add("Center", boardPanel);
 
         JPanel statusPanel = new JPanel();
-        statusPanel.setBackground(Color.YELLOW);
         container.add("South", statusPanel);
 
         // Top panel : button ------------------------------
@@ -95,6 +92,8 @@ public class Window extends JFrame {
         // Bottom panel : status ------------------------------
         this.labelStatus = new JTextArea();
         this.labelStatus.setEditable(true);
+        this.labelStatus.setColumns(50);
+        this.labelStatus.setBackground(statusPanel.getBackground());
         statusPanel.add(labelStatus);
 
         this.controller.updateStatusLabel();
