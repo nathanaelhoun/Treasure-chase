@@ -87,6 +87,6 @@ public enum Direction {
      * @return a random direction
      */
     public static Direction getRandom() {
-       return vals[(int) Math.random() * (vals.length)];
+        return vals[(int) (Math.random() * (vals.length))];
     }
 }
