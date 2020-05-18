@@ -25,6 +25,18 @@ public class Board {
         this.treasure = null;
     }
 
+    public int getBoardHeight() {
+        return this.boardHeight;
+    }
+
+    public int getBoardWidth() {
+        return this.boardWidth;
+    }
+
+    public String getCellString(int x, int y) {
+        return this.cells.get(y).get(x).toString();
+    }
+
     @Override
     public String toString() {
         String board = "";
