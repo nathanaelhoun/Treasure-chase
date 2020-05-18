@@ -33,8 +33,12 @@ public class Board {
         return this.boardWidth;
     }
 
-    public String getCellString(int x, int y) {
-        return this.cells.get(y).get(x).toString();
+    public ArrayList<Hunter> getHunters() {
+        return hunters;
+    }
+
+    public Cell getCell(int x, int y) {
+        return this.cells.get(y).get(x);
     }
 
     @Override

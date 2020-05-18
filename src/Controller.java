@@ -12,19 +12,48 @@ import java.awt.event.ActionListener;
  */
 public class Controller implements ActionListener {
 
+    private int boardHeight, boardWidth, numberOfHunters;
+
     private Window window;
     private Board board;
 
     public Controller(Window window, int boardHeight, int boardWidth, int numberOfHunters) {
         this.window = window;
-        this.board = new Board(boardHeight, boardWidth);
-        board.initialiseHunters(numberOfHunters);
-        board.boardMakePrefabOne();
+
+        this.boardHeight = boardHeight;
+        this.boardWidth = boardWidth;
+        this.numberOfHunters = numberOfHunters;
+
+        this.board = initiateBoard();
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        // TODO
+    public void actionPerformed(ActionEvent ev) {
+        if (ev.getSource() == this.window.getButtonNextRound()) {
+            this.board.doRound();
+            this.updateCellsLabels();
+            this.updateStatusLabel();
+            return;
+        }
+
+        if (ev.getSource() == this.window.getButtonNewGame()) {
+            this.board = initiateBoard();
+            this.updateCellsLabels();
+            this.updateStatusLabel();
+            return;
+        }
+
+    }
+
+    private Board initiateBoard() {
+        return initiateBoard(this.boardHeight, this.boardWidth, this.numberOfHunters);
+    }
+
+    private Board initiateBoard(int boardHeight, int boardWidth, int numberOfHunters) {
+        Board newBoard = new Board(boardHeight, boardWidth);
+        newBoard.initialiseHunters(numberOfHunters);
+        newBoard.boardMakePrefabOne();
+        return newBoard;
     }
 
     /**
@@ -36,24 +65,53 @@ public class Controller implements ActionListener {
 
                 JLabel labelToUpdate = this.window.getCellLabel(x, y);
 
-                String cellType = this.board.getCellString(x + 1, y + 1);
+                Cell cell = this.board.getCell(x + 1, y + 1);
 
-                switch (cellType) {
+                switch (cell.toString()) {
                     case "·":
                         labelToUpdate.setBackground(Color.LIGHT_GRAY);
-                        labelToUpdate.setText(cellType);
+                        labelToUpdate.setText("·");
                         break;
 
                     case "#":
                         labelToUpdate.setBackground(Color.BLUE);
                         break;
 
-                    default:
+                    case "T":
                         labelToUpdate.setBackground(Color.YELLOW);
-                        labelToUpdate.setText(cellType);
+                        labelToUpdate.setText("T");
+                        break;
+
+                    default:
+                        if (this.board.isWinner() && this.board.getWinner().getCurrentCell() == cell) {
+                            labelToUpdate.setBackground(Color.YELLOW);
+                        } else {
+                            labelToUpdate.setBackground(Color.GRAY);
+                        }
+
+                        labelToUpdate.setText(cell.toString());
                 }
             }
         }
     }
 
+    /**
+     * Update the status label with the status of each player
+     */
+    public void updateStatusLabel() {
+        String str = "";
+
+        String newline = System.getProperty("line.separator");
+        for (Hunter h : this.board.getHunters()) {
+            str += "Personnage " + h.toString() + " : ";
+
+            if (this.board.getWinner() == h) {
+                str += " ** WINNER ** ";
+            }
+
+            str += h.getDescription() + newline;
+        }
+
+        this.window.getLabelStatus().setText(str);
+    }
 }
