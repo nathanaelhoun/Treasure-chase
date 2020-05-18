@@ -33,6 +33,27 @@ public class Board {
         return this.boardWidth;
     }
 
+    /**
+     * Find the position of the treasure on the board
+     *
+     * @return the instance of the treasure from the board
+     */
+    public CellTreasure getTreasure() {
+        if (this.treasure != null) {
+            return this.treasure;
+        }
+
+        for (ArrayList<Cell> line : cells) {
+            for (Cell cell : line) {
+                if (cell.toString() == "T") {
+                    return (CellTreasure) cell;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public ArrayList<Hunter> getHunters() {
         return hunters;
     }
@@ -155,23 +176,6 @@ public class Board {
     /**************************************************************************
      * 							Utilities
      *************************************************************************/
-
-    /**
-     * Find the position of the treasure on the board
-     *
-     * @return the instance of the treasure from the board
-     */
-    private CellTreasure getTreasure() {
-        for (ArrayList<Cell> line : cells) {
-            for (Cell cell : line) {
-                if (cell.toString() == "T") {
-                    return (CellTreasure) cell;
-                }
-            }
-        }
-
-        return null;
-    }
 
     private void initialiseTopLeftAndBottomSides() {
         for (int x = 0; x < this.boardWidth + 2; ++x) {

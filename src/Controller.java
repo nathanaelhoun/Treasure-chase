@@ -40,6 +40,8 @@ public class Controller implements ActionListener {
             this.board = initiateBoard();
             this.updateCellsLabels();
             this.updateStatusLabel();
+
+            this.window.getButtonNextRound().setEnabled(true);
             return;
         }
 
@@ -83,8 +85,10 @@ public class Controller implements ActionListener {
                         break;
 
                     default:
-                        if (this.board.isWinner() && this.board.getWinner().getCurrentCell() == cell) {
+                        if (this.board.isWinner() && this.board.getTreasure() == cell) {
                             labelToUpdate.setBackground(Color.YELLOW);
+                            // Deactivate the buttons
+                            this.window.getButtonNextRound().setEnabled(false);
                         } else {
                             labelToUpdate.setBackground(Color.GRAY);
                         }
