@@ -34,15 +34,15 @@ Bilan technique sur les outils utilisés, difficultés de programmation rencontr
 
 ### Changements sur le diagramme de classe initial
 
-- Board a un attribut `treasure` qui permet d'accéder facilement au trésor
-- Board a un méthode `doRound()` qui appelle le `process()` pour chaque Hunter
-- Direction voit tous ses attributs renommés selon les points cardinaux pour une meilleure lisibilité
-- Direction gagne deux fonctions statiques utilitaires : `getRandom()` et `reverse()`
-- Hunter possède une case courante `currentCell` plutôt qu'une position courante : la position courante est accessible depuis la case courante, et ainsi on peut libérer la case courante depuis le Hunter lors du `process` 
-- Hunter gagne une fonction `getWantedPosition()`
-- Les attributs de Cell sont maintenant en protected
-- Cell gagne un attribut `treasure` qui contient une référence vers le trésor du Board
-- Les classes héritées de Cell ont été complètement réécrites, notamment pour contenir les directions à donner aux Hunter qui sont calculées à l'initialisation du Board plutôt qu'à l'exécution du programme
+- Model.Board a un attribut `treasure` qui permet d'accéder facilement au trésor
+- Model.Board a un méthode `doRound()` qui appelle le `process()` pour chaque Model.Hunter
+- Model.Direction voit tous ses attributs renommés selon les points cardinaux pour une meilleure lisibilité
+- Model.Direction gagne deux fonctions statiques utilitaires : `getRandom()` et `reverse()`
+- Model.Hunter possède une case courante `currentCell` plutôt qu'une position courante : la position courante est accessible depuis la case courante, et ainsi on peut libérer la case courante depuis le Model.Hunter lors du `process` 
+- Model.Hunter gagne une fonction `getWantedPosition()`
+- Les attributs de Model.Cell sont maintenant en protected
+- Model.Cell gagne un attribut `treasure` qui contient une référence vers le trésor du Model.Board
+- Les classes héritées de Model.Cell ont été complètement réécrites, notamment pour contenir les directions à donner aux Model.Hunter qui sont calculées à l'initialisation du Model.Board plutôt qu'à l'exécution du programme
 
 
 ## Conclusion
