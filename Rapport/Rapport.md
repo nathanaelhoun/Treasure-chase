@@ -28,7 +28,7 @@ Diagramme de classes final, choix justifié de structures de données, éventuel
 
 Captures d'écran pour les points intéressant du programme. Organisation du travail
 
-Ce qui a été développé, testé, non implanté, abandonné
+Ce qui a été développé, testé, non implanté, abandonné (check des fonctionnalités implantées)
 
 Bilan technique sur les outils utilisés, difficultés de programmation rencontrées
 

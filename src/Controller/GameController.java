@@ -45,6 +45,11 @@ public class GameController implements ActionListener {
             return;
         }
 
+        if (ev.getSource() == this.gameWindow.getButtonGoToMenu()) {
+            this.gameWindow.getMenu().setVisible(true);
+            this.gameWindow.dispose();
+        }
+
 //        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
 //            this.board = initiateBoard();
 //            this.updateCellsLabels();

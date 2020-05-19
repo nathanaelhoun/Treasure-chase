@@ -17,10 +17,12 @@ import java.util.ArrayList;
  */
 public class GameWindow extends JFrame {
 
+    private final MenuWindow menu;
     private final GameController gameController;
 
+    private final JButton buttonGoToMenu;
     private final JButton buttonNextRound;
-//    private final JButton buttonNewGame;
+    //    private final JButton buttonNewGame;
     private final ArrayList<ArrayList<JLabel>> cellLabels;
     private final JTextArea labelStatus;
 
@@ -32,11 +34,13 @@ public class GameWindow extends JFrame {
      * - central panel is the board panel, with the board and the players
      * - bottom bar is the status panel, with the status of each player
      */
-    public GameWindow(int boardNumber) {
-        super("Treasure Chase — Nathanaël Houn");
+    public GameWindow(int boardNumber, MenuWindow menu) {
+        super("Partie en cours | Treasure Chase — Nathanaël Houn");
         this.setSize(600, 600);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.menu = menu;
         this.gameController = new GameController(this, boardNumber);
         this.cellLabels = new ArrayList<ArrayList<JLabel>>();
         for (int y = 0; y < this.gameController.getBoardHeight(); ++y) {
@@ -56,6 +60,10 @@ public class GameWindow extends JFrame {
         container.add("South", statusPanel);
 
         // Top panel : button ------------------------------
+        this.buttonGoToMenu = new JButton("Retour au menu");
+        this.buttonGoToMenu.addActionListener(this.gameController);
+        actionPanel.add(this.buttonGoToMenu);
+
         this.buttonNextRound = new JButton("Tour suivant");
         this.buttonNextRound.addActionListener(this.gameController);
         actionPanel.add(this.buttonNextRound);
@@ -107,6 +115,10 @@ public class GameWindow extends JFrame {
 //        return this.buttonNewGame;
 //    }
 
+    public JButton getButtonGoToMenu() {
+        return this.buttonGoToMenu;
+    }
+
     public JButton getButtonNextRound() {
         return this.buttonNextRound;
     }
@@ -117,6 +129,10 @@ public class GameWindow extends JFrame {
 
     public JTextArea getLabelStatus() {
         return this.labelStatus;
+    }
+
+    public MenuWindow getMenu() {
+        return this.menu;
     }
 
     /**
