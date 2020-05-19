@@ -14,17 +14,23 @@ public class Board {
     private CellTreasure treasure;
     private final ArrayList<Hunter> hunters;
 
-    public Board(int boardHeight, int boardWidth) {
-        this.boardHeight = boardHeight;
-        this.boardWidth = boardWidth;
-
+    public Board(int boardNumber) {
         this.cells = new ArrayList<ArrayList<Cell>>();
-        for (int i = 0; i < this.boardHeight + 2; ++i) {
-            this.cells.add(new ArrayList<Cell>());
-        }
-
         this.hunters = new ArrayList<Hunter>();
         this.treasure = null;
+
+        switch (boardNumber) {
+            case 1:
+            default:
+                this.boardHeight = 12;
+                this.boardWidth = 12;
+                for (int i = 0; i < this.boardHeight + 2; ++i) {
+                    this.cells.add(new ArrayList<Cell>());
+                }
+                initialiseHunters(3);
+
+                this.boardMakePrefabOne();
+        }
     }
 
     public int getBoardHeight() {
@@ -128,7 +134,7 @@ public class Board {
      *
      * @param numberOfHunters the number of hunter to generate
      */
-    public void initialiseHunters(int numberOfHunters) {
+    private void initialiseHunters(int numberOfHunters) {
         for (int i = 0; i < numberOfHunters; i++) {
             String name = "" + (char) (i + 'A');
             this.hunters.add(new Hunter(name));

@@ -9,7 +9,7 @@ import Vue.GameWindow;
  */
 public class GoTreasureChase {
     public static void main(String[] args) {
-        GameWindow gameWindow = new GameWindow(12, 12, 3);
+        GameWindow gameWindow = new GameWindow(1);
         gameWindow.start();
     }
 }

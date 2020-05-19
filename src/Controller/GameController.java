@@ -19,21 +19,21 @@ import java.awt.event.ActionListener;
  */
 public class GameController implements ActionListener {
 
-    private final int boardHeight;
-    private final int boardWidth;
-    private final int numberOfHunters;
-
     private final GameWindow gameWindow;
     private Board board;
 
-    public GameController(GameWindow gameWindow, int boardHeight, int boardWidth, int numberOfHunters) {
+    public GameController(GameWindow gameWindow, int boardNumber) {
         this.gameWindow = gameWindow;
 
-        this.boardHeight = boardHeight;
-        this.boardWidth = boardWidth;
-        this.numberOfHunters = numberOfHunters;
+        this.board = new Board(boardNumber);
+    }
 
-        this.board = initiateBoard();
+    public int getBoardHeight() {
+        return this.board.getBoardHeight();
+    }
+
+    public int getBoardWidth() {
+        return this.board.getBoardWidth();
     }
 
     @Override
@@ -45,26 +45,15 @@ public class GameController implements ActionListener {
             return;
         }
 
-        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
-            this.board = initiateBoard();
-            this.updateCellsLabels();
-            this.updateStatusLabel();
+//        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
+//            this.board = initiateBoard();
+//            this.updateCellsLabels();
+//            this.updateStatusLabel();
+//
+//            this.gameWindow.getButtonNextRound().setEnabled(true);
+//            return;
+//        }
 
-            this.gameWindow.getButtonNextRound().setEnabled(true);
-            return;
-        }
-
-    }
-
-    private Board initiateBoard() {
-        return initiateBoard(this.boardHeight, this.boardWidth, this.numberOfHunters);
-    }
-
-    private Board initiateBoard(int boardHeight, int boardWidth, int numberOfHunters) {
-        Board newBoard = new Board(boardHeight, boardWidth);
-        newBoard.initialiseHunters(numberOfHunters);
-        newBoard.boardMakePrefabOne();
-        return newBoard;
     }
 
     /**
