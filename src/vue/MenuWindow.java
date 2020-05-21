@@ -31,6 +31,7 @@ public class MenuWindow extends JFrame {
         this.setSize(400, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
 
         this.controller = new MenuController(this);
         buttonNewGame1.addActionListener(this.controller);
