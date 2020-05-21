@@ -6,6 +6,7 @@ import Controller.MenuController;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -16,10 +17,13 @@ import java.util.ArrayList;
  */
 public class MenuWindow  extends JFrame {
 
-    public final JButton buttonNewGame1;
     private MenuController controller;
 
-    MenuWindow() {
+    private JButton buttonNewGame1;
+    private JFormattedTextField textFieldEditorHeight, textFieldEditorWidth;
+    private JButton buttonLaunchEditor;
+
+    public MenuWindow() {
         super("Menu | Treasure Chase — Nathanaël Houn");
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
@@ -33,8 +37,8 @@ public class MenuWindow  extends JFrame {
         JPanel actionPanel = new JPanel();
         container.add("North", actionPanel);
 
-        JPanel boardPanel = new JPanel();
-        container.add("Center", boardPanel);
+        JPanel editorPanel = new JPanel();
+        container.add("Center", editorPanel);
 
         JPanel statusPanel = new JPanel();
         container.add("South", statusPanel);
@@ -45,6 +49,17 @@ public class MenuWindow  extends JFrame {
         actionPanel.add(this.buttonNewGame1);
 
         // Middle panel :  ------------------------------
+        this.textFieldEditorHeight = new JFormattedTextField(createFormatter("##"));
+        this.textFieldEditorHeight.setValue("10");
+        editorPanel.add(this.textFieldEditorHeight);
+
+        this.textFieldEditorWidth = new JFormattedTextField(createFormatter("##"));
+        this.textFieldEditorWidth.setValue("10");
+        editorPanel.add(this.textFieldEditorWidth);
+
+        this.buttonLaunchEditor = new JButton("Lancer l'éditeur");
+        this.buttonLaunchEditor.addActionListener(this.controller);
+        actionPanel.add(this.buttonLaunchEditor);
 
         // Bottom panel :  ------------------------------
     }
@@ -54,4 +69,33 @@ public class MenuWindow  extends JFrame {
      */
     public void start() {
         this.setVisible(true);
-    }}
+    }
+
+    public JButton getButtonNewGame1() {
+        return this.buttonNewGame1;
+    }
+
+    public JButton getButtonLaunchEditor() {
+        return this.buttonLaunchEditor;
+    }
+
+    public JFormattedTextField getTextFieldEditorHeight() {
+        return this.textFieldEditorHeight;
+    }
+
+    public JFormattedTextField getTextFieldEditorWidth() {
+        return this.textFieldEditorWidth;
+    }
+
+    private MaskFormatter createFormatter(String s) {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter(s);
+        } catch (java.text.ParseException exc) {
+            System.err.println("formatter is bad: " + exc.getMessage());
+            System.exit(-1);
+        }
+        return formatter;
+    }
+
+}

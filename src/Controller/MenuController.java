@@ -1,5 +1,6 @@
 package Controller;
 
+import Vue.EditorWindow;
 import Vue.GameWindow;
 import Vue.MenuWindow;
 
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
  *
  * @author Nathanaël Houn
  */
-public class MenuController  implements ActionListener {
+public class MenuController implements ActionListener {
 
     private MenuWindow window;
 
@@ -21,10 +22,19 @@ public class MenuController  implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        if (ev.getSource() == window.buttonNewGame1) {
+        if (ev.getSource() == window.getButtonNewGame1()) {
             this.window.setVisible(false);
-            GameWindow game = new GameWindow(1, this.window);
+            GameWindow game = new GameWindow(this.window, 1);
             game.start();
+        }
+
+        if (ev.getSource() == window.getButtonLaunchEditor()) {
+            int width = Integer.parseInt(this.window.getTextFieldEditorWidth().getValue().toString());
+            int height = Integer.parseInt(this.window.getTextFieldEditorHeight().getValue().toString());
+
+            this.window.setVisible(false);
+            EditorWindow editor = new EditorWindow(this.window, width, height);
+            editor.start();
         }
     }
 }

@@ -22,10 +22,9 @@ public class GameController implements ActionListener {
     private final GameWindow gameWindow;
     private Board board;
 
-    public GameController(GameWindow gameWindow, int boardNumber) {
-        this.gameWindow = gameWindow;
-
-        this.board = new Board(boardNumber);
+    public GameController(GameWindow window, Board board) {
+        this.gameWindow = window;
+        this.board = board;
     }
 
     public int getBoardHeight() {
@@ -42,6 +41,11 @@ public class GameController implements ActionListener {
             this.board.doRound();
             this.updateCellsLabels();
             this.updateStatusLabel();
+
+            if(this.board.isWinner()) {
+                this.gameWindow.getButtonNextRound().setEnabled(false);
+            }
+
             return;
         }
 
@@ -90,8 +94,6 @@ public class GameController implements ActionListener {
                     default:
                         if (this.board.isWinner() && this.board.getTreasure() == cell) {
                             labelToUpdate.setBackground(Color.YELLOW);
-                            // Deactivate the buttons
-                            this.gameWindow.getButtonNextRound().setEnabled(false);
                         } else {
                             labelToUpdate.setBackground(Color.GRAY);
                         }
@@ -106,21 +108,28 @@ public class GameController implements ActionListener {
      * Update the status label with the status of each player
      */
     public void updateStatusLabel() {
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
         String newline = System.getProperty("line.separator");
         for (Hunter h : this.board.getHunters()) {
-            str += "Personnage " + h.toString() + " : ";
+            str.append("Personnage ").append(h.toString()).append(" : ");
 
             if (this.board.getWinner() == h) {
-                str += " ** WINNER ** ";
+                str.append(" ** WINNER ** ");
             } else {
-                str += "Model.Position actuelle :  " + h.getCurrentCell().getPosition().toString() + " | Meilleure direction : " + h.getDirection().toString();
+                str.append("Model.Position actuelle :  ").append(
+                        h.getCurrentCell().
+                                getPosition().
+                                toString()).
+                        append(" | Meilleure direction : ").
+                        append(h.
+                                getDirection().
+                                toString());
             }
 
-            str += newline;
+            str.append(newline);
         }
 
-        this.gameWindow.getLabelStatus().setText(str);
+        this.gameWindow.getLabelStatus().setText(str.toString());
     }
 }

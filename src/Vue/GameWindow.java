@@ -1,6 +1,7 @@
 package Vue;
 
 import Controller.GameController;
+import Model.Board;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -34,14 +35,18 @@ public class GameWindow extends JFrame {
      * - central panel is the board panel, with the board and the players
      * - bottom bar is the status panel, with the status of each player
      */
-    public GameWindow(int boardNumber, MenuWindow menu) {
+    public GameWindow(MenuWindow menu, int boardNumber) {
+        this(menu, new Board(boardNumber));
+    }
+
+    public GameWindow(MenuWindow menu, Board board) {
         super("Partie en cours | Treasure Chase — Nathanaël Houn");
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.menu = menu;
-        this.gameController = new GameController(this, boardNumber);
+        this.gameController = new GameController(this, board);
         this.cellLabels = new ArrayList<ArrayList<JLabel>>();
         for (int y = 0; y < this.gameController.getBoardHeight(); ++y) {
             this.cellLabels.add(new ArrayList<JLabel>());

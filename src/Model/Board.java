@@ -14,6 +14,19 @@ public class Board {
     private CellTreasure treasure;
     private final ArrayList<Hunter> hunters;
 
+    public Board(int width, int height) {
+        this.boardWidth = width;
+        this.boardHeight = height;
+        this.cells = new ArrayList<ArrayList<Cell>>();
+        for (int i = 0; i < this.boardHeight + 2; ++i) {
+            this.cells.add(new ArrayList<Cell>());
+        }
+        this.boardMakeEmpty();
+
+        this.hunters = new ArrayList<>();
+        this.treasure = null;
+    }
+
     public Board(int boardNumber) {
         this.cells = new ArrayList<ArrayList<Cell>>();
         this.hunters = new ArrayList<Hunter>();
@@ -28,7 +41,6 @@ public class Board {
                     this.cells.add(new ArrayList<Cell>());
                 }
                 initialiseHunters(3);
-
                 this.boardMakePrefabOne();
         }
     }
@@ -42,7 +54,9 @@ public class Board {
     }
 
     /**
-     * Find the position of the treasure on the board
+     * Get the treasure
+     * <p>
+     * If the treasure attribute is not set, attempt to find it on the board before giving it.
      *
      * @return the instance of the treasure from the board
      */
@@ -51,15 +65,33 @@ public class Board {
             return this.treasure;
         }
 
-        for (ArrayList<Cell> line : cells) {
-            for (Cell cell : line) {
-                if (cell.toString() == "T") {
-                    return (CellTreasure) cell;
-                }
-            }
+        this.treasure = this.findTreasure();
+        return this.treasure;
+    }
+
+    /**
+     * Set the treasure for the object and for all the cells
+     *
+     * @param treasure
+     */
+    public void setTreasure(CellTreasure treasure) {
+        this.treasure = treasure;
+        this.setTreasureForAllCells();
+    }
+
+    /**
+     * Find the treasure on the map and set it
+     *
+     * @return true if there is a treasure, false is none is found
+     */
+    public boolean findAndSetTreasure() {
+        CellTreasure treasure = findTreasure();
+        if (treasure == null) {
+            return false;
         }
 
-        return null;
+        this.setTreasure(treasure);
+        return true;
     }
 
     public ArrayList<Hunter> getHunters() {
@@ -122,11 +154,7 @@ public class Board {
         initialiseRightSide();
 
         this.treasure = this.getTreasure();
-        for (ArrayList<Cell> line : cells) {
-            for (Cell c : line) {
-                c.setTreasure(this.treasure);
-            }
-        }
+        this.setTreasureForAllCells();
     }
 
     /**
@@ -185,6 +213,26 @@ public class Board {
      * 							Utilities
      *************************************************************************/
 
+    /**
+     * Find the treasure on the board
+     *
+     * @return the treasure from the board, or null if none is found
+     */
+    private CellTreasure findTreasure() {
+        for (ArrayList<Cell> line : cells) {
+            for (Cell cell : line) {
+                if (cell.toString() == "T") {
+                    return (CellTreasure) cell;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Place CellSide on top, left and bottom sides of the board
+     */
     private void initialiseTopLeftAndBottomSides() {
         for (int x = 0; x < this.boardWidth + 2; ++x) {
             this.cells.get(0).add(new CellSide(new Position(x, 0)));
@@ -199,13 +247,20 @@ public class Board {
         }
     }
 
+    /**
+     * Add CellSide at the end of each line, to do the right side of the board
+     */
     private void initialiseRightSide() {
         for (int y = 1; y < this.boardHeight + 1; ++y) {
             this.cells.get(y).add(new CellSide(new Position(this.boardWidth + 2, y)));
         }
     }
 
-
+    /**
+     * Initialize an line of free CelLFree on the board
+     *
+     * @param lineY the number of the line to set
+     */
     private void initialiseEmptyLine(int lineY) {
         for (int x = 1; x <= this.boardWidth; ++x) {
             this.cells.get(lineY).add(new CellFree(new Position(x, lineY)));
@@ -213,6 +268,12 @@ public class Board {
 
     }
 
+    /**
+     * Initialize a line on the board according to the given description array of strings
+     *
+     * @param lineY
+     * @param toSet an array of strings, with #V and #H for walls, "T" for treasure, "." for an empty CellFree and a lettre for a hunter
+     */
     private void initialiseLine(int lineY, String[] toSet) {
         if (toSet.length != this.boardWidth) {
             System.err.println("Nombre d'arguments non valide : doit faire la largeur du plateau.");
@@ -265,5 +326,69 @@ public class Board {
         }
 
         return null;
+    }
+
+    /**
+     * Set the treasure location for each cell.
+     * For some cells, this make compute the best direction
+     */
+    private void setTreasureForAllCells() {
+        for (ArrayList<Cell> line : cells) {
+            for (Cell c : line) {
+                c.setTreasure(this.treasure);
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    //                                  For the Editor
+    // ------------------------------------------------------------------------
+
+    /**
+     * Initialize an empty board with empty CellFree
+     */
+    private void boardMakeEmpty() {
+        initialiseTopLeftAndBottomSides();
+
+        for (int y = 1; y <= this.boardHeight; y++) {
+            initialiseEmptyLine(y);
+        }
+
+        initialiseRightSide();
+    }
+
+    /**
+     * Replace a selected cell in the board by the given one
+     *
+     * @param x    abscissa of the cell to replace
+     * @param y    ordinate of the cell to replace
+     * @param cell the new cell
+     */
+    public void replaceCell(int x, int y, Cell cell) {
+        this.cells.get(y).set(x, cell);
+    }
+
+    /**
+     * Add a hunter to the board
+     * <p>
+     * His name is set to "name of the last hunter + 1"
+     *
+     * @return the new Hunter
+     */
+    public Hunter addHunter() {
+        int name = this.hunters.size() + 'A';
+        return addHunter(Character.toString((char) name));
+    }
+
+    /**
+     * Add a hunter to the board
+     *
+     * @param name the name of the new Hunter
+     * @return the new Hunter
+     */
+    public Hunter addHunter(String name) {
+        Hunter newHunter = new Hunter(name);
+        this.hunters.add(newHunter);
+        return newHunter;
     }
 }
