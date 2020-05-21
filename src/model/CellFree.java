@@ -60,7 +60,7 @@ public class CellFree extends Cell {
             return;
         }
 
-        h.getCurrentCell().removeHunter();
+        ((CellFree) h.getCurrentCell()).removeHunter();
         this.currentHunter = h;
         h.setCurrentCell(this);
 

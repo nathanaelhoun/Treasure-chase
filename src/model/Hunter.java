@@ -33,8 +33,8 @@ public class Hunter {
         return this.name;
     }
 
-    public CellFree getCurrentCell() {
-        return (CellFree) this.currentCell;
+    public Cell getCurrentCell() {
+        return this.currentCell;
     }
 
     public void setCurrentCell(Cell c) {

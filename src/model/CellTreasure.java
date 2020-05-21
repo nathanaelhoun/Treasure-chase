@@ -24,7 +24,7 @@ public class CellTreasure extends Cell {
      */
     @Override
     public void process(Hunter h) {
-        h.getCurrentCell().removeHunter();
+        ((CellFree) h.getCurrentCell()).removeHunter();
         h.setCurrentCell(this);
         this.winner = h;
     }
