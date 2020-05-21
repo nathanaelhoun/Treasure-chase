@@ -235,15 +235,15 @@ public class Board {
      */
     private void initialiseTopLeftAndBottomSides() {
         for (int x = 0; x < this.boardWidth + 2; ++x) {
-            this.cells.get(0).add(new CellSide(new Position(x, 0)));
+            this.cells.get(0).add(new CellSide(new Position(x, 0), this.boardWidth, this.boardHeight));
         }
 
         for (int y = 1; y < this.boardHeight + 1; ++y) {
-            this.cells.get(y).add(new CellSide(new Position(0, y)));
+            this.cells.get(y).add(new CellSide(new Position(0, y), this.boardWidth, this.boardHeight));
         }
 
         for (int x = 0; x < this.boardWidth + 2; ++x) {
-            this.cells.get(this.boardHeight + 1).add(new CellSide(new Position(x, this.boardHeight + 2)));
+            this.cells.get(this.boardHeight + 1).add(new CellSide(new Position(x, this.boardHeight + 2), this.boardWidth, this.boardHeight));
         }
     }
 
@@ -252,7 +252,7 @@ public class Board {
      */
     private void initialiseRightSide() {
         for (int y = 1; y < this.boardHeight + 1; ++y) {
-            this.cells.get(y).add(new CellSide(new Position(this.boardWidth + 2, y)));
+            this.cells.get(y).add(new CellSide(new Position(this.boardWidth + 2, y), this.boardWidth, this.boardHeight));
         }
     }
 

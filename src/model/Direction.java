@@ -46,7 +46,7 @@ public enum Direction {
     private static final Direction[] vals = values();
 
     /**
-     * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST
+     * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST)
      *
      * @param dir the current direction
      * @return the opposite direction
@@ -56,12 +56,23 @@ public enum Direction {
     }
 
     /**
+     * Return the clockwise rotated direction
+     *
+     * @param dir the current direction
+     * @return the rotated direction
+     */
+    public static Direction rotate(Direction dir) {
+        return vals[(dir.ordinal() + vals.length / 4) % vals.length];
+    }
+
+    /**
      * @return a random direction
      */
     public static Direction getRandom() {
         return vals[(int) (Math.random() * (vals.length))];
     }
 
+    @Override
     public String toString() {
         switch (this) {
             case EAST:
@@ -89,6 +100,6 @@ public enum Direction {
                 return "En bas à droite";
         }
 
-        return this.toString();
+        return super.toString();
     }
 }
