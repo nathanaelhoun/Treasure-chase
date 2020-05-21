@@ -79,19 +79,24 @@ public class GameController implements ActionListener {
             Position originPosition = move.getKey();
             Position destinationPosition = move.getValue();
 
+            // minus one because the JLabels arrays doesn't count the borders
             JLabel originJLabel = this.window.getCellLabel(originPosition.getX() - 1, originPosition.getY() - 1);
             JLabel destinationJLabel = this.window.getCellLabel(destinationPosition.getX() - 1, destinationPosition.getY() - 1);
+
+            Cell originCell = this.board.getCell(originPosition.getX(), originPosition.getY());
             Cell destinationCell = this.board.getCell(destinationPosition.getX(), destinationPosition.getY());
 
-            originJLabel.setBackground(Color.LIGHT_GRAY);
-            originJLabel.setText("·");
+            if (originCell.toString().equals("·")) {
+                // else : there is a Hunter on this cell, don't overwrite him
+                originJLabel.setBackground(Color.LIGHT_GRAY);
+                originJLabel.setText("·");
+            }
 
             if (this.board.isWinner() && this.board.getTreasure() == destinationCell) {
                 destinationJLabel.setBackground(Color.YELLOW);
             } else {
                 destinationJLabel.setBackground(Color.GRAY);
             }
-
             destinationJLabel.setText(destinationCell.toString());
         }
     }
