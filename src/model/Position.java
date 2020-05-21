@@ -49,14 +49,13 @@ public class Position {
         return "[" + this.x + " " + this.y + "]";
     }
 
-
     /**
      * Compute the position obtained with the current position + the given direction
      *
      * @param dir the direction to follow
      * @return the next position
      */
-    public Position currentPositionPlusDirection(Direction dir) {
+    public Position computePosition(Direction dir) {
         Position computedPosition = new Position(this.getX(), this.getY());
 
         if (dir == Direction.NORTH || dir == Direction.NORTH_EAST || dir == Direction.NORTH_WEST) {

@@ -78,7 +78,7 @@ public class CellFree extends Cell {
         int lowerDistance = Integer.MAX_VALUE;
 
         for (Direction dir : Direction.values()) {
-            Position testPosition = this.position.currentPositionPlusDirection(dir);
+            Position testPosition = this.position.computePosition(dir);
             int testedDistance = this.treasure.distanceWith(testPosition);
             if (testedDistance < lowerDistance) {
                 lowerDistance = testedDistance;
