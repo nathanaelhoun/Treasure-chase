@@ -16,7 +16,9 @@ public class Window extends JFrame {
     private Controller controller;
 
     private JButton buttonNextRound;
+    private JButton buttonNewGame;
     private ArrayList<ArrayList<JLabel>> cellLabels;
+    private JTextArea labelStatus;
 
     /**
      * Initialize the view
@@ -28,7 +30,7 @@ public class Window extends JFrame {
      */
     public Window(int boardHeight, int boardWidth, int numberOfHunters) {
         super("Treasure Chase — Nathanaël Houn");
-        this.setSize(600, 300);
+        this.setSize(600, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.controller = new Controller(this, boardHeight, boardWidth, numberOfHunters);
@@ -57,6 +59,11 @@ public class Window extends JFrame {
         this.buttonNextRound.addActionListener(this.controller);
         actionPanel.add(this.buttonNextRound);
 
+        this.buttonNewGame = new JButton("Nouvelle partie");
+        this.buttonNewGame.addActionListener(this.controller);
+        actionPanel.add(this.buttonNewGame);
+
+
         // Middle panel : board ------------------------------
         Border border = LineBorder.createBlackLineBorder();
 
@@ -84,10 +91,29 @@ public class Window extends JFrame {
         }
 
         this.controller.updateCellsLabels();
+
+        // Bottom panel : status ------------------------------
+        this.labelStatus = new JTextArea();
+        this.labelStatus.setEditable(true);
+        statusPanel.add(labelStatus);
+
+        this.controller.updateStatusLabel();
+    }
+
+    public JButton getButtonNewGame() {
+        return this.buttonNewGame;
+    }
+
+    public JButton getButtonNextRound() {
+        return this.buttonNextRound;
     }
 
     public JLabel getCellLabel(int x, int y) {
         return this.cellLabels.get(y).get(x);
+    }
+
+    public JTextArea getLabelStatus() {
+        return this.labelStatus;
     }
 
     /**
