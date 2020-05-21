@@ -28,16 +28,18 @@ Le diagramme de classe ci-dessus présente la structure utilisée du _package_ m
 - Cell gagne un attribut `treasure` qui contient une référence vers le trésor du Board
 - Les classes héritées de Cell ont été complètement réécrites
   - Pour `CellFree` : le calcul de la meilleure direction vers le trésor est fait lors du premier appel à `process()`. Elle est ensuite stockée pour ne pas avoir à être recalculée par la suite sur la même case.
-  - Pour `CellStone`, la meilleure direction dépend de la position du joueur : elle est calculée lors du premier appel à `process()` depuis une position donnée. Cette meilleure direction est ensuite stockée dans une `Hashmap<Position, Direction>` pour être ensuite redonnée directement sans avoir à la recalculer.
+  - Pour `CellStone`, la meilleure direction dépend de la position du joueur : elle est calculée lors du premier appel à `process()` depuis une position donnée. Cette meilleure direction est ensuite stockée dans une `Hashmap<Position, Direction>` pour être ensuite redonnée directement sans avoir à la recalculer. L'utilisation d'une `HashMap` permet d'accéder en temps constant à la direction souhaitée, quelque soit le nombre de direction déjà calculées. Cela permet aussi de savoir instantanément que la direction n'a pas encore été calculée, sans avoir à parcourir toutes les valeurs.
 - De nombreuses méthodes ont été rajoutées dans Board pour la gestion de l'éditeur graphique, permettant à l'éditeur graphique de modifier les attributs du Board
 
 ### Implémentation de `process()` pour chaque type de cellule
 
-Pour `CellFree`, la meilleure direction vers le trésor étant toujours la même, elle est calculée à l'initialisation du Board. `CellFree.process()` consiste donc uniquement à donner cette direction au Hunter
+- Pour `CellFree`, la meilleure direction vers le trésor étant toujours la même, elle est calculée à l'initialisation du Board. `CellFree.process()` consiste donc uniquement à donner cette direction au Hunter
 
-Pour `CellStone`, la meilleure direction à prendre pour contourner le mur dépend de l'emplacement du joueur. Elle est donc calculée à l'exécution, quand le joueur rencontre la pierre.
+- Pour `CellStone`, la meilleure direction à prendre pour contourner le mur dépend de l'emplacement du joueur. Elle est donc calculée à l'exécution, quand le joueur rencontre la pierre.
 
 
+
+Tous les `process()` sont appelés par le `Board` à chaque tour dans `doRound()`. La méthode `doRound` renvoie une `HashMap<Position, Position>`, afin d'avoir tous les déplacements qui ont été effectués pendant le tour, utilisés pendant la mise à jour du plateau graphique (afin d'éviter de mettre à jour tout le terrain à chaque tour). L'utilisation d'une `HashMap` permet d'avoir accès aux couples de valeurs <ancienne position, nouvelle position>, rassemblée dans une `Map.Entry`.
 
 
 

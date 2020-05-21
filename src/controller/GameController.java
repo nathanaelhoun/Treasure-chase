@@ -96,7 +96,6 @@ public class GameController implements ActionListener {
         }
     }
 
-
     /**
      * Update all the cells labels from the model
      */
@@ -124,12 +123,7 @@ public class GameController implements ActionListener {
                         break;
 
                     default:
-                        if (this.board.isWinner() && this.board.getTreasure() == cell) {
-                            labelToUpdate.setBackground(Color.YELLOW);
-                        } else {
-                            labelToUpdate.setBackground(Color.GRAY);
-                        }
-
+                        labelToUpdate.setBackground(Color.GRAY);
                         labelToUpdate.setText(cell.toString());
                 }
             }
@@ -154,7 +148,7 @@ public class GameController implements ActionListener {
                         append(" | Meilleure direction : ").
                         append(h.getDirection().toString());
             }
-            // TODO : special string when hitting a wall
+
             str.append(newline);
         }
 
