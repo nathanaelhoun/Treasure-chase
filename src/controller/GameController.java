@@ -38,14 +38,15 @@ public class GameController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == this.window.getButtonNextRound()) {
+            this.window.getButtonNextRound().setEnabled(false);
+
             HashMap<Position, Position> moves = this.board.doRound();
             this.updateCellsLabels(moves);
             this.updateStatusLabel();
 
-            if (this.board.isWinner()) {
-                this.window.getButtonNextRound().setEnabled(false);
+            if (!this.board.isWinner()) {
+                this.window.getButtonNextRound().setEnabled(true);
             }
-
             return;
         }
 

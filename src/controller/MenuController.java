@@ -4,6 +4,7 @@ import vue.EditorWindow;
 import vue.GameWindow;
 import vue.MenuWindow;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,16 +26,40 @@ public class MenuController implements ActionListener {
         if (ev.getSource() == window.getButtonNewGame1()) {
             this.window.setVisible(false);
             GameWindow game = new GameWindow(this.window, 1);
-            game.start();
+            game.setVisible(true);
         }
 
         if (ev.getSource() == window.getButtonLaunchEditor()) {
-            int width = Integer.parseInt(this.window.getTextFieldEditorWidth().getValue().toString());
-            int height = Integer.parseInt(this.window.getTextFieldEditorHeight().getValue().toString());
+            boolean launchEditor = true;
 
-            this.window.setVisible(false);
-            EditorWindow editor = new EditorWindow(this.window, width, height);
-            editor.start();
+            int width = 0;
+            try {
+                width = Integer.parseInt(
+                        this.window.getTextFieldEditorWidthValue().getText()
+                );
+            } catch (final NumberFormatException e) {
+                this.window.getLabelEditorStatus().setText("La largeur fournie est incorrecte.");
+                launchEditor = false;
+            }
+
+            int height = 0;
+            try {
+                height = Integer.parseInt(
+                        this.window.getTextFieldEditorHeightValue().getText()
+                );
+            } catch (final NumberFormatException e) {
+                this.window.getLabelEditorStatus().setText("La hauteur fournie est incorrecte.");
+                launchEditor = false;
+            }
+
+            if (launchEditor) {
+                this.window.getLabelEditorStatus().setText("");
+                this.window.setVisible(false);
+                EditorWindow editor = new EditorWindow(this.window, width, height);
+                editor.start();
+            } else {
+                this.window.getLabelEditorStatus().setBackground(Color.RED);
+            }
         }
     }
 }

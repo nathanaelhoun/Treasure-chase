@@ -138,11 +138,4 @@ public class GameWindow extends JFrame {
     public MenuWindow getMenu() {
         return this.menu;
     }
-
-    /**
-     * Start the game
-     */
-    public void start() {
-        this.setVisible(true);
-    }
 }
