@@ -8,6 +8,6 @@ package vue;
 public class GoTreasureChase {
     public static void main(String[] args) {
         MenuWindow menuWindow = new MenuWindow();
-        menuWindow.start();
+        menuWindow.setVisible(true);
     }
 }

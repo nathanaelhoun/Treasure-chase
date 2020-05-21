@@ -3,94 +3,60 @@ package vue;
 import controller.MenuController;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
- * Treasure chase menu
+ * Treasure chase
+ * <p>
+ * Vue part of MVC
+ * <p>
+ * Designed with IntellijIDEA GUI Designer
  *
  * @author Nathanaël Houn
  */
 public class MenuWindow extends JFrame {
 
-    private final JButton buttonNewGame1;
-    private final JFormattedTextField textFieldEditorHeight;
-    private final JFormattedTextField textFieldEditorWidth;
-    private final JButton buttonLaunchEditor;
+    private JPanel panelMain;
+
+    private JButton buttonNewGame1;
+    private JButton buttonLaunchEditor;
+    private JFormattedTextField textFieldEditorWidth;
+    private JFormattedTextField textFieldEditorHeight;
+    private JLabel labelEditorStatus;
+    private final MenuController controller;
 
     public MenuWindow() {
         super("Menu | Treasure Chase — Nathanaël Houn");
-        this.setSize(600, 600);
+        this.setSize(400, 500);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        MenuController controller = new MenuController(this);
+        this.controller = new MenuController(this);
+        buttonNewGame1.addActionListener(this.controller);
+        buttonLaunchEditor.addActionListener(this.controller);
 
-        Container container = this.getContentPane();
-
-        // Main panels
-        JPanel actionPanel = new JPanel();
-        container.add("North", actionPanel);
-
-        JPanel editorPanel = new JPanel();
-        container.add("Center", editorPanel);
-
-        JPanel statusPanel = new JPanel();
-        container.add("South", statusPanel);
-
-        // Top panel    :  ------------------------------
-        this.buttonNewGame1 = new JButton("Lancer la partie 1");
-        this.buttonNewGame1.addActionListener(controller);
-        actionPanel.add(this.buttonNewGame1);
-
-        // Middle panel :  ------------------------------
-        this.textFieldEditorHeight = new JFormattedTextField(createFormatter("##"));
-        this.textFieldEditorHeight.setValue("10");
-        editorPanel.add(this.textFieldEditorHeight);
-
-        this.textFieldEditorWidth = new JFormattedTextField(createFormatter("##"));
-        this.textFieldEditorWidth.setValue("10");
-        editorPanel.add(this.textFieldEditorWidth);
-
-        this.buttonLaunchEditor = new JButton("Lancer l'éditeur");
-        this.buttonLaunchEditor.addActionListener(controller);
-        actionPanel.add(this.buttonLaunchEditor);
-
-        // Bottom panel :  ------------------------------
-    }
-
-    /**
-     * Start the menu
-     */
-    public void start() {
-        this.setVisible(true);
-    }
-
-    public JButton getButtonNewGame1() {
-        return this.buttonNewGame1;
+        this.setContentPane(this.panelMain);
     }
 
     public JButton getButtonLaunchEditor() {
-        return this.buttonLaunchEditor;
+        return buttonLaunchEditor;
     }
 
-    public JFormattedTextField getTextFieldEditorHeight() {
-        return this.textFieldEditorHeight;
+    public JButton getButtonNewGame1() {
+        return buttonNewGame1;
     }
 
-    public JFormattedTextField getTextFieldEditorWidth() {
-        return this.textFieldEditorWidth;
+    public JFormattedTextField getTextFieldEditorHeightValue() {
+        return textFieldEditorHeight;
     }
 
-    private MaskFormatter createFormatter(String s) {
-        MaskFormatter formatter = null;
-        try {
-            formatter = new MaskFormatter(s);
-        } catch (java.text.ParseException exc) {
-            System.err.println("formatter is bad: " + exc.getMessage());
-            System.exit(-1);
-        }
-        return formatter;
+    public JFormattedTextField getTextFieldEditorWidthValue() {
+        return textFieldEditorWidth;
+    }
+
+    public JLabel getLabelEditorStatus() {
+        return labelEditorStatus;
     }
 
 }

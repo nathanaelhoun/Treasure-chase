@@ -38,7 +38,7 @@ public class EditorController implements ActionListener {
             if (buildStatus.length() == 0) {
                 this.window.setVisible(false);
                 GameWindow game = new GameWindow(this.window.getMenu(), this.board);
-                game.start();
+                game.setVisible(true);
                 this.window.dispose();
             } else {
                 this.window.setErrorLabel(buildStatus);
