@@ -71,6 +71,14 @@ public enum Direction {
         return values[(int) (Math.random() * (values.length))];
     }
 
+    /**
+     * Get the four cardinal points
+     * @return an array of four directions
+     */
+    public static Direction[] getCardinalPoints() {
+        return new Direction[]{NORTH, EAST, SOUTH, WEST};
+    }
+
     @Override
     public String toString() {
         switch (this) {

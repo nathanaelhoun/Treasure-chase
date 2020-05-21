@@ -74,7 +74,40 @@ public class EditorController implements ActionListener {
                     ((CellFree) this.board.getCell(x, y)).setCurrentHunter(newHunter);
                     newHunter.setCurrentCell(this.board.getCell(x, y));
                 } else if (Color.BLUE.equals(background)) {
-                    this.board.replaceCell(x, y, new CellStone(new Position(x, y), CellStone.Orientation.HORIZONTAL, this.board)); // TODO : trouver la bonne orientation
+
+                    Position currentPos = new Position(x, y);
+                    CellStone.Orientation detectedOrientation = null;
+
+                    // Detect the orientation of the wall with the adjacent labels
+                    for (Direction dir : Direction.getCardinalPoints()) {
+                        Position testedPos = currentPos.computePosition(dir);
+
+                        if (testedPos.getX() == 0 ||
+                                testedPos.getX() == this.board.WIDTH + 1 ||
+                                testedPos.getY() == 0 ||
+                                testedPos.getY() == this.board.HEIGHT + 1
+                        ) {
+                            return "Les murs ne peuvent pas être adjacents aux bords. Erreur à la case (" + x + ", " + y + ").";
+                        }
+
+                        JLabel testedLabel = this.window.getCellLabels().get(testedPos.getY()).get(testedPos.getX());
+
+                        if (testedLabel.getBackground().equals(Color.BLUE)) {
+                            if (detectedOrientation == null) {
+                                detectedOrientation = orientationFromCardinalDirection(dir);
+                            } else if (!detectedOrientation.equals(orientationFromCardinalDirection(dir))) {
+                                return "Deux murs ne peuvent être adjacents. Erreur à la case (" + x + ", " + y + ").";
+                            }
+                        }
+                    }
+
+                    if (detectedOrientation == null) {
+                        // By default (if there is only one CellStone), we set it to vertical
+                        detectedOrientation = CellStone.Orientation.VERTICAL;
+                    }
+
+                    this.board.replaceCell(x, y, new CellStone(new Position(x, y), detectedOrientation, this.board));
+
                 } else {
                     System.err.println("Erreur lors du parcours du tableau de l'éditeur à la case (" + x + ", " + y + "). Couleur inconnue : " + currentLabel.getBackground());
                     return "Case inconnue : (" + x + ", " + y + ").";
@@ -102,5 +135,32 @@ public class EditorController implements ActionListener {
         }
 
         return "";
+    }
+
+    /**
+     * Convert a cardinal direction to an orientation (e.g. SOUTH => VERTICAL)
+     *
+     * @param dir the direction
+     * @return the orientation
+     */
+    private CellStone.Orientation orientationFromCardinalDirection(Direction dir) {
+        switch (dir) {
+
+            case EAST:
+            case WEST:
+                return CellStone.Orientation.HORIZONTAL;
+
+            case SOUTH:
+            case NORTH:
+                return CellStone.Orientation.VERTICAL;
+
+            case NORTH_EAST:
+            case NORTH_WEST:
+            case SOUTH_WEST:
+            case SOUTH_EAST:
+                assert (false);
+        }
+
+        return null;
     }
 }

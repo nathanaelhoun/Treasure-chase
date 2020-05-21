@@ -1,6 +1,7 @@
 package vue;
 
 import controller.EditorController;
+import sun.text.resources.nl.JavaTimeSupplementary_nl;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,6 +24,7 @@ public class EditorWindow extends JFrame {
     private final JButton buttonReturnToMenu;
     private final JButton buttonLaunchGame;
     private final JLabel cellTreasure;
+    private final JLabel cellStone;
     private final JLabel hunter;
     private final JLabel errorLabel;
 
@@ -120,6 +122,19 @@ public class EditorWindow extends JFrame {
             }
         });
 
+        this.cellStone = new JLabel("Mur");
+        this.cellStone.setHorizontalAlignment(JLabel.CENTER);
+        this.cellStone.setBorder(border);
+        this.cellStone.setOpaque(true);
+        this.cellStone.setBackground(Color.BLUE);
+        this.cellStone.setTransferHandler(new TransferHandler("background"));
+        this.cellStone.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                TransferHandler handler = cellStone.getTransferHandler();
+                handler.exportAsDrag(cellStone, e, TransferHandler.COPY);
+            }
+        });
+
         this.hunter = new JLabel("Joueur");
         this.hunter.setHorizontalAlignment(JLabel.CENTER);
         this.hunter.setBorder(border);
@@ -137,7 +152,7 @@ public class EditorWindow extends JFrame {
         cellsPanel.add(cellTreasure);
         cellsPanel.add(new JLabel());
         cellsPanel.add(new JLabel());
-        cellsPanel.add(new JLabel());
+        cellsPanel.add(cellStone);
         cellsPanel.add(new JLabel());
         cellsPanel.add(new JLabel());
         cellsPanel.add(hunter);
