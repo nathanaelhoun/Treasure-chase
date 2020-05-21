@@ -1,7 +1,6 @@
 package vue;
 
 import controller.EditorController;
-import sun.text.resources.nl.JavaTimeSupplementary_nl;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -10,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
@@ -124,6 +124,7 @@ public class EditorWindow extends JFrame {
         this.cellTreasure.setTransferHandler(new TransferHandler("background"));
         this.cellTreasure.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                cellTreasure.setBackground(Color.ORANGE);
                 TransferHandler handler = cellTreasure.getTransferHandler();
                 handler.exportAsDrag(cellTreasure, e, TransferHandler.COPY); // TODO : move instead of copy
             }
@@ -137,6 +138,7 @@ public class EditorWindow extends JFrame {
         this.cellStone.setTransferHandler(new TransferHandler("background"));
         this.cellStone.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                cellStone.setBackground(Color.BLUE);
                 TransferHandler handler = cellStone.getTransferHandler();
                 handler.exportAsDrag(cellStone, e, TransferHandler.COPY);
             }
@@ -150,6 +152,7 @@ public class EditorWindow extends JFrame {
         this.hunter.setTransferHandler(new TransferHandler("background"));
         this.hunter.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                hunter.setBackground(Color.GRAY);
                 TransferHandler handler = hunter.getTransferHandler();
                 handler.exportAsDrag(hunter, e, TransferHandler.COPY);
             }
