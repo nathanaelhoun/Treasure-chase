@@ -58,8 +58,8 @@ public class EditorController implements ActionListener {
      * @return a string with the error, or an empty string
      */
     private String buildBoard() {
-        for (int y = 1; y <= this.board.getBoardHeight(); y++) {
-            for (int x = 1; x <= this.board.getBoardWidth(); x++) {
+        for (int y = 1; y <= this.board.HEIGHT; y++) {
+            for (int x = 1; x <= this.board.HEIGHT; x++) {
                 JLabel currentLabel = this.window.getCellLabels().get(y).get(x);
                 Color background = currentLabel.getBackground();
                 if (Color.RED.equals(background) || Color.LIGHT_GRAY.equals(background)) {
@@ -70,7 +70,7 @@ public class EditorController implements ActionListener {
                 if (Color.YELLOW.equals(background)) {
                     this.board.replaceCell(x, y, new CellTreasure(new Position(x, y)));
                 } else if (Color.GRAY.equals(background)) {
-                    Hunter newHunter = this.board.addHunter();
+                    Hunter newHunter = this.board.addHunter("");
                     ((CellFree) this.board.getCell(x, y)).setHunter(newHunter);
                     newHunter.setCurrentCell(this.board.getCell(x, y));
                 } else if (Color.BLUE.equals(background)) {
@@ -87,8 +87,8 @@ public class EditorController implements ActionListener {
             return "Il n'y a pas de trésor sur ce terrain.";
         }
 
-        for (int y = 1; y <= this.board.getBoardHeight(); y++) {
-            for (int x = 1; x <= this.board.getBoardWidth(); x++) {
+        for (int y = 1; y <= this.board.HEIGHT; y++) {
+            for (int x = 1; x <= this.board.WIDTH; x++) {
                 Cell currentCell = this.board.getCell(x, y);
 
                 if (currentCell != this.board.getTreasure() && currentCell.toString().equals("T")) {

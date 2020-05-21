@@ -8,17 +8,23 @@ import java.util.ArrayList;
  * @author Nathanaël Houn
  */
 public class Board {
-    private final int boardHeight;
-    private final int boardWidth;
-    private final ArrayList<ArrayList<Cell>> cells;
-    private final ArrayList<Hunter> hunters;
+    public final int HEIGHT;
+    public final int WIDTH;
+    private ArrayList<ArrayList<Cell>> cells;
+    private ArrayList<Hunter> hunters;
     private CellTreasure treasure;
 
+    /**
+     * Initialize an empty (filled with CellFree) board
+     *
+     * @param width  the width of the board, without the sides
+     * @param height the height of the board, without the sides
+     */
     public Board(int width, int height) {
-        this.boardWidth = width;
-        this.boardHeight = height;
+        this.WIDTH = width;
+        this.HEIGHT = height;
         this.cells = new ArrayList<>();
-        for (int i = 0; i < this.boardHeight + 2; ++i) {
+        for (int i = 0; i < this.HEIGHT + 2; ++i) {
             this.cells.add(new ArrayList<>());
         }
         this.boardMakeEmpty();
@@ -27,6 +33,11 @@ public class Board {
         this.treasure = null;
     }
 
+    /**
+     * Initialize a saved board
+     *
+     * @param boardNumber the board number
+     */
     public Board(int boardNumber) {
         this.cells = new ArrayList<>();
         this.hunters = new ArrayList<>();
@@ -35,22 +46,46 @@ public class Board {
         switch (boardNumber) {
             case 1:
             default:
-                this.boardHeight = 12;
-                this.boardWidth = 12;
-                for (int i = 0; i < this.boardHeight + 2; ++i) {
+                this.HEIGHT = 12;
+                this.WIDTH = 12;
+                for (int i = 0; i < this.HEIGHT + 2; ++i) {
                     this.cells.add(new ArrayList<>());
                 }
-                initialiseHunters(3);
-                this.boardMakePrefabOne();
+                /**
+                 * Place the cells on the board like this
+                 * <p>
+                 * ++++++++++++++
+                 * +············+
+                 * +············+
+                 * +···#········+
+                 * +·T·#·····A··+
+                 * +···#········+
+                 * +···#········+
+                 * +···#··###···+
+                 * +···#···C····+
+                 * +···#····B···+
+                 * +············+
+                 * +············+
+                 * +············+
+                 * ++++++++++++++
+                 */
+                initialiseTopLeftAndBottomSides();
+                initialiseEmptyLine(1);
+                initialiseEmptyLine(2);
+                initialiseLine(3, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+                initialiseLine(4, new String[]{".", "T", ".", "#V", ".", ".", ".", ".", ".", "A", ".", "."});
+                initialiseLine(5, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+                initialiseLine(6, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
+                initialiseLine(7, new String[]{".", ".", ".", "#V", ".", ".", "#H", "#H", "#H", ".", ".", "."});
+                initialiseLine(8, new String[]{".", ".", ".", "#V", ".", ".", ".", "C", ".", ".", ".", "."});
+                initialiseLine(9, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", "B", ".", ".", "."});
+                initialiseEmptyLine(10);
+                initialiseEmptyLine(11);
+                initialiseEmptyLine(12);
+                initialiseRightSide();
         }
-    }
-
-    public int getBoardHeight() {
-        return this.boardHeight;
-    }
-
-    public int getBoardWidth() {
-        return this.boardWidth;
+        this.treasure = this.getTreasure();
+        this.setTreasureForAllCells();
     }
 
     /**
@@ -70,16 +105,6 @@ public class Board {
     }
 
     /**
-     * Set the treasure for the object and for all the cells
-     *
-     * @param treasure the new CellTreasure instance
-     */
-    public void setTreasure(CellTreasure treasure) {
-        this.treasure = treasure;
-        this.setTreasureForAllCells();
-    }
-
-    /**
      * Find the treasure on the map and set it
      *
      * @return true if there is a treasure, false is none is found
@@ -90,7 +115,8 @@ public class Board {
             return false;
         }
 
-        this.setTreasure(treasure);
+        this.treasure = treasure;
+        this.setTreasureForAllCells();
         return true;
     }
 
@@ -104,69 +130,15 @@ public class Board {
 
     @Override
     public String toString() {
-        StringBuilder board = new StringBuilder();
+        StringBuilder boardString = new StringBuilder();
         for (ArrayList<Cell> line : cells) {
             for (Cell cell : line) {
-                board.append(cell.toString());
+                boardString.append(cell.toString());
             }
-            board.append('\n');
+            boardString.append('\n');
         }
 
-        return board.toString();
-    }
-
-    /**
-     * Place the cells on the board like this
-     * <p>
-     * ++++++++++++++
-     * +············+
-     * +············+
-     * +···#········+
-     * +·T·#·····A··+
-     * +···#········+
-     * +···#········+
-     * +···#··###···+
-     * +···#···C····+
-     * +···#····B···+
-     * +············+
-     * +············+
-     * +············+
-     * ++++++++++++++
-     */
-    public void boardMakePrefabOne() {
-        initialiseTopLeftAndBottomSides();
-
-        initialiseEmptyLine(1);
-        initialiseEmptyLine(2);
-
-        initialiseLine(3, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(4, new String[]{".", "T", ".", "#V", ".", ".", ".", ".", ".", "A", ".", "."});
-        initialiseLine(5, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(6, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", ".", ".", ".", "."});
-        initialiseLine(7, new String[]{".", ".", ".", "#V", ".", ".", "#H", "#H", "#H", ".", ".", "."});
-        initialiseLine(8, new String[]{".", ".", ".", "#V", ".", ".", ".", "C", ".", ".", ".", "."});
-        initialiseLine(9, new String[]{".", ".", ".", "#V", ".", ".", ".", ".", "B", ".", ".", "."});
-
-        initialiseEmptyLine(10);
-        initialiseEmptyLine(11);
-        initialiseEmptyLine(12);
-
-        initialiseRightSide();
-
-        this.treasure = this.getTreasure();
-        this.setTreasureForAllCells();
-    }
-
-    /**
-     * Initialise the hunter array but don't place the hunters on the board
-     *
-     * @param numberOfHunters the number of hunter to generate
-     */
-    private void initialiseHunters(int numberOfHunters) {
-        for (int i = 0; i < numberOfHunters; i++) {
-            String name = "" + (char) (i + 'A');
-            this.hunters.add(new Hunter(name));
-        }
+        return boardString.toString();
     }
 
     /**
@@ -198,17 +170,6 @@ public class Board {
         return this.treasure.getWinner() != null;
     }
 
-    /**
-     * Get the winner of the game
-     * <p>
-     * Please call isWinner() before
-     *
-     * @return the instance of the winner Model.Hunter
-     */
-    public Hunter getWinner() {
-        return this.treasure.getWinner();
-    }
-
     // ------------------------------------------------------------------------
     //                               Utilities
     // ------------------------------------------------------------------------
@@ -234,16 +195,16 @@ public class Board {
      * Place CellSide on top, left and bottom sides of the board
      */
     private void initialiseTopLeftAndBottomSides() {
-        for (int x = 0; x < this.boardWidth + 2; ++x) {
-            this.cells.get(0).add(new CellSide(new Position(x, 0), this.boardWidth, this.boardHeight));
+        for (int x = 0; x < this.WIDTH + 2; ++x) {
+            this.cells.get(0).add(new CellSide(new Position(x, 0), this.WIDTH, this.HEIGHT));
         }
 
-        for (int y = 1; y < this.boardHeight + 1; ++y) {
-            this.cells.get(y).add(new CellSide(new Position(0, y), this.boardWidth, this.boardHeight));
+        for (int y = 1; y < this.HEIGHT + 1; ++y) {
+            this.cells.get(y).add(new CellSide(new Position(0, y), this.WIDTH, this.HEIGHT));
         }
 
-        for (int x = 0; x < this.boardWidth + 2; ++x) {
-            this.cells.get(this.boardHeight + 1).add(new CellSide(new Position(x, this.boardHeight + 2), this.boardWidth, this.boardHeight));
+        for (int x = 0; x < this.WIDTH + 2; ++x) {
+            this.cells.get(this.HEIGHT + 1).add(new CellSide(new Position(x, this.HEIGHT + 2), this.WIDTH, this.HEIGHT));
         }
     }
 
@@ -251,8 +212,8 @@ public class Board {
      * Add CellSide at the end of each line, to do the right side of the board
      */
     private void initialiseRightSide() {
-        for (int y = 1; y < this.boardHeight + 1; ++y) {
-            this.cells.get(y).add(new CellSide(new Position(this.boardWidth + 2, y), this.boardWidth, this.boardHeight));
+        for (int y = 1; y < this.HEIGHT + 1; ++y) {
+            this.cells.get(y).add(new CellSide(new Position(this.WIDTH + 2, y), this.WIDTH, this.HEIGHT));
         }
     }
 
@@ -262,10 +223,9 @@ public class Board {
      * @param lineY the number of the line to set
      */
     private void initialiseEmptyLine(int lineY) {
-        for (int x = 1; x <= this.boardWidth; ++x) {
+        for (int x = 1; x <= this.WIDTH; ++x) {
             this.cells.get(lineY).add(new CellFree(new Position(x, lineY)));
         }
-
     }
 
     /**
@@ -275,11 +235,11 @@ public class Board {
      * @param toSet an array of strings, with #V and #H for walls, "T" for treasure, "." for an empty CellFree and a lettre for a hunter
      */
     private void initialiseLine(int lineY, String[] toSet) {
-        if (toSet.length != this.boardWidth) {
+        if (toSet.length != this.WIDTH) {
             System.err.println("Nombre d'arguments non valide : doit faire la largeur du plateau.");
         }
 
-        for (int x = 1; x <= this.boardWidth; ++x) {
+        for (int x = 1; x <= this.WIDTH; ++x) {
             Position pos = new Position(x, lineY);
             Cell newCell;
 
@@ -301,31 +261,17 @@ public class Board {
                     break;
 
                 default:
+                    // Add the hunter on the map
                     newCell = new CellFree(pos);
-                    Hunter h = getHunterByName(toSet[x - 1]);
+
+                    Hunter h = new Hunter(toSet[x - 1]);
+                    this.hunters.add(h);
                     ((CellFree) newCell).setHunter(h);
-                    assert h != null;
                     h.setCurrentCell(newCell);
             }
 
             this.cells.get(lineY).add(newCell);
         }
-    }
-
-    /**
-     * Get the instance of a hunter from the list by his name
-     *
-     * @param name the name of the wanted hunter
-     * @return the instance of the hunter from this.hunters
-     */
-    private Hunter getHunterByName(String name) {
-        for (Hunter hunter : this.hunters) {
-            if (hunter.toString().equals(name)) {
-                return hunter;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -350,7 +296,7 @@ public class Board {
     private void boardMakeEmpty() {
         initialiseTopLeftAndBottomSides();
 
-        for (int y = 1; y <= this.boardHeight; y++) {
+        for (int y = 1; y <= this.HEIGHT; y++) {
             initialiseEmptyLine(y);
         }
 
@@ -370,23 +316,15 @@ public class Board {
 
     /**
      * Add a hunter to the board
-     * <p>
-     * His name is set to "name of the last hunter + 1"
      *
-     * @return the new Hunter
-     */
-    public Hunter addHunter() {
-        int name = this.hunters.size() + 'A';
-        return addHunter(Character.toString((char) name));
-    }
-
-    /**
-     * Add a hunter to the board
-     *
-     * @param name the name of the new Hunter
+     * @param name the name of the new Hunter. If the name is empty, generate a new name
      * @return the new Hunter
      */
     public Hunter addHunter(String name) {
+        if (name.length() == 0) {
+            name = Character.toString((char) (this.hunters.size() + 'A'));
+        }
+
         Hunter newHunter = new Hunter(name);
         this.hunters.add(newHunter);
         return newHunter;
