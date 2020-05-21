@@ -1,14 +1,14 @@
 package controller;
 
-import model.Board;
-import model.Cell;
-import model.Hunter;
+import model.*;
 import vue.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Treasure chase
@@ -38,8 +38,8 @@ public class GameController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == this.window.getButtonNextRound()) {
-            this.board.doRound();
-            this.updateCellsLabels();
+            HashMap<Position, Position> moves = this.board.doRound();
+            this.updateCellsLabels(moves);
             this.updateStatusLabel();
 
             if (this.board.isWinner()) {
@@ -56,7 +56,7 @@ public class GameController implements ActionListener {
 
 //        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
 //            this.board = initiateBoard();
-//            this.updateCellsLabels();
+//            this.initialiseCellLabels();
 //            this.updateStatusLabel();
 //
 //            this.gameWindow.getButtonNextRound().setEnabled(true);
@@ -67,8 +67,41 @@ public class GameController implements ActionListener {
 
     /**
      * Update all the cells labels from the model
+     *
+     * @param moves HashMap<Position, Position> Array of moves, the first position is the old one, and the second is the new one
      */
-    public void updateCellsLabels() {
+    public void updateCellsLabels(HashMap<Position, Position> moves) {
+
+        for (Map.Entry<Position, Position> move : moves.entrySet()) {
+            Position originPosition = move.getKey();
+            Position destinationPosition = move.getValue();
+
+            // minus one because the JLabels arrays doesn't count the borders
+            JLabel originJLabel = this.window.getCellLabel(originPosition.getX() - 1, originPosition.getY() - 1);
+            JLabel destinationJLabel = this.window.getCellLabel(destinationPosition.getX() - 1, destinationPosition.getY() - 1);
+
+            Cell originCell = this.board.getCell(originPosition.getX(), originPosition.getY());
+            Cell destinationCell = this.board.getCell(destinationPosition.getX(), destinationPosition.getY());
+
+            if (originCell.toString().equals("·")) {
+                // else : there is a Hunter on this cell, don't overwrite him
+                originJLabel.setBackground(Color.LIGHT_GRAY);
+                originJLabel.setText("·");
+            }
+
+            if (this.board.isWinner() && this.board.getTreasure() == destinationCell) {
+                destinationJLabel.setBackground(Color.YELLOW);
+            } else {
+                destinationJLabel.setBackground(Color.GRAY);
+            }
+            destinationJLabel.setText(destinationCell.toString());
+        }
+    }
+
+    /**
+     * Update all the cells labels from the model
+     */
+    public void initialiseCellLabels() {
         for (int y = 0; y < this.board.HEIGHT; y++) {
             for (int x = 0; x < this.board.HEIGHT; x++) {
 
@@ -87,17 +120,12 @@ public class GameController implements ActionListener {
                         break;
 
                     case "T":
-                        labelToUpdate.setBackground(Color.YELLOW);
+                        labelToUpdate.setBackground(Color.ORANGE);
                         labelToUpdate.setText("T");
                         break;
 
                     default:
-                        if (this.board.isWinner() && this.board.getTreasure() == cell) {
-                            labelToUpdate.setBackground(Color.YELLOW);
-                        } else {
-                            labelToUpdate.setBackground(Color.GRAY);
-                        }
-
+                        labelToUpdate.setBackground(Color.GRAY);
                         labelToUpdate.setText(cell.toString());
                 }
             }
@@ -122,7 +150,7 @@ public class GameController implements ActionListener {
                         append(" | Meilleure direction : ").
                         append(h.getDirection().toString());
             }
-            // TODO : special string when hitting a wall
+
             str.append(newline);
         }
 

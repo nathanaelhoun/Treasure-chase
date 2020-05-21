@@ -24,7 +24,7 @@ public class CellTreasure extends Cell {
      */
     @Override
     public void process(Hunter h) {
-        h.getCurrentCell().removeHunter();
+        ((CellFree) h.getCurrentCell()).removeHunter();
         h.setCurrentCell(this);
         this.winner = h;
     }
@@ -32,7 +32,7 @@ public class CellTreasure extends Cell {
     @Override
     public String toString() {
         if (this.winner != null) {
-            return this.winner.toString();
+            return this.winner.toString() + " :-)";
         }
 
         return "T";

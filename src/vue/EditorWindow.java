@@ -111,7 +111,7 @@ public class EditorWindow extends JFrame {
         this.cellTreasure.setHorizontalAlignment(JLabel.CENTER);
         this.cellTreasure.setBorder(border);
         this.cellTreasure.setOpaque(true);
-        this.cellTreasure.setBackground(Color.YELLOW);
+        this.cellTreasure.setBackground(Color.ORANGE);
         this.cellTreasure.setTransferHandler(new TransferHandler("background"));
         this.cellTreasure.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {

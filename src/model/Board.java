@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Treasure chase
@@ -145,8 +146,11 @@ public class Board {
      * Update their position if needed
      * Output the changes done to the console
      */
-    public void doRound() {
+    public HashMap<Position, Position> doRound() {
+        HashMap<Position, Position> moves = new HashMap<>();
         for (Hunter h : this.hunters) {
+            Position originPosition = h.getCurrentCell().getPosition();
+
             System.out.println("Personnage " + h.toString() + ": ");
             System.out.println(h.getDescription());
 
@@ -157,7 +161,13 @@ public class Board {
             System.out.println("Best dir : " + h.getDirection());
 
             System.out.println(" -> " + h.getDescription() + "\n");
+
+            Position destinationPosition = h.getCurrentCell().getPosition();
+
+            moves.put(originPosition, destinationPosition);
         }
+
+        return moves;
     }
 
     /**
@@ -263,7 +273,7 @@ public class Board {
 
                     Hunter h = new Hunter(toSet[x - 1]);
                     this.hunters.add(h);
-                    ((CellFree) newCell).setHunter(h);
+                    ((CellFree) newCell).setCurrentHunter(h);
                     h.setCurrentCell(newCell);
             }
 

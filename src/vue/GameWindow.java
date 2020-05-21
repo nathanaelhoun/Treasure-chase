@@ -103,7 +103,7 @@ public class GameWindow extends JFrame {
             }
         }
 
-        controller.updateCellsLabels();
+        controller.initialiseCellLabels();
 
         // Bottom panel : status ------------------------------
         this.labelStatus = new JTextArea();
