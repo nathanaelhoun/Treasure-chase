@@ -32,18 +32,7 @@ public class CellStone extends Cell {
 
     @Override
     public String toString() {
-
-        // TODO temp to remove
-        switch (this.wallOrientation) {
-            case VERTICAL:
-                return "#V";
-            case HORIZONTAL:
-                return "#H";
-        }
-
         return "#";
-
-
     }
 
     /**
