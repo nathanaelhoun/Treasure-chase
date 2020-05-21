@@ -38,12 +38,8 @@ public class CellSide extends Cell {
     public void process(Hunter h) {
         h.setDirection(Direction.reverse(h.getDirection()));
 
-        if (isAimingToASide(h)) {
+        while (isAimingToASide(h)) {
             h.setDirection(Direction.rotate(h.getDirection()));
-        }
-
-        if (isAimingToASide(h)) {
-            h.setDirection(Direction.reverse(h.getDirection()));
         }
     }
 
