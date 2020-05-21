@@ -44,6 +44,8 @@ Sujet2020-chasseTresor.pdf
 .vscode
 
 # LateX
+Makefile
+*.out
 *.tex
 *.aux
 *.log
