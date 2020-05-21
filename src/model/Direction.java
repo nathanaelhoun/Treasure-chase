@@ -10,40 +10,39 @@ package model;
 public enum Direction {
 
     /**
-     * Model.Position à droite, numéro 1
+     * Model.Position right, number 1
      */
     EAST,
     /**
-     * Model.Position en haut à droite, numéro 2
+     * Model.Position top right, number 2
      */
     NORTH_EAST,
     /**
-     * Model.Position en haut, numéro 3
+     * Model.Position top, number 3
      */
     NORTH,
     /**
-     * Model.Position en haut à gauche, numéro 4
+     * Model.Position top left, number 4
      */
     NORTH_WEST,
     /**
-     * Model.Position à gauche, numéro 5
+     * Model.Position left, number 5
      */
     WEST,
     /**
-     * Model.Position en bas à gauche, numéro 6
+     * Model.Position bottom left, number 6
      */
     SOUTH_WEST,
     /**
-     * Model.Position à gauche, numéro 7
+     * Model.Position left, number 7
      */
     SOUTH,
     /**
-     * Model.Position en bas à droite, numéro 8
+     * Model.Position bottom right, number 8
      */
     SOUTH_EAST;
 
-
-    private static final Direction[] vals = values();
+    private static final Direction[] values = values();
 
     /**
      * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST)
@@ -52,24 +51,24 @@ public enum Direction {
      * @return the opposite direction
      */
     public static Direction reverse(Direction dir) {
-        return vals[(dir.ordinal() + vals.length / 2) % vals.length];
+        return values[(dir.ordinal() + values.length / 2) % values.length];
     }
 
     /**
-     * Return the clockwise rotated direction
+     * Return the anti-clockwise rotated direction
      *
      * @param dir the current direction
      * @return the rotated direction
      */
     public static Direction rotate(Direction dir) {
-        return vals[(dir.ordinal() + vals.length / 4) % vals.length];
+        return values[(dir.ordinal() + values.length / 4) % values.length];
     }
 
     /**
      * @return a random direction
      */
     public static Direction getRandom() {
-        return vals[(int) (Math.random() * (vals.length))];
+        return values[(int) (Math.random() * (values.length))];
     }
 
     @Override
