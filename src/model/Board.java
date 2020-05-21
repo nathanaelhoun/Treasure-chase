@@ -273,7 +273,7 @@ public class Board {
 
                     Hunter h = new Hunter(toSet[x - 1]);
                     this.hunters.add(h);
-                    ((CellFree) newCell).setHunter(h);
+                    ((CellFree) newCell).setCurrentHunter(h);
                     h.setCurrentCell(newCell);
             }
 

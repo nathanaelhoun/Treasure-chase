@@ -24,8 +24,11 @@ public class CellFree extends Cell {
         this.directionToTheTreasure = null;
     }
 
+    public Hunter getCurrentHunter() {
+        return currentHunter;
+    }
 
-    public void setHunter(Hunter h) {
+    public void setCurrentHunter(Hunter h) {
         assert (this.currentHunter == null);
         this.currentHunter = h;
     }
@@ -40,7 +43,7 @@ public class CellFree extends Cell {
             return "·";
         }
 
-        return currentHunter.toString();
+        return currentHunter.toString() + currentHunter.getDirection().toBeautifulString();
     }
 
     /**

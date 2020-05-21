@@ -101,4 +101,33 @@ public enum Direction {
 
         return super.toString();
     }
+
+    public String toBeautifulString() {
+        switch (this) {
+            case EAST:
+                return "→";
+
+            case NORTH_EAST:
+                return "↗";
+
+            case NORTH:
+                return "↑";
+
+            case NORTH_WEST:
+                return "↖";
+
+            case WEST:
+                return "←";
+
+            case SOUTH_WEST:
+                return "↙";
+
+            case SOUTH:
+                return "↓";
+
+            case SOUTH_EAST:
+                return "↘";
+        }
+        return super.toString();
+    }
 }

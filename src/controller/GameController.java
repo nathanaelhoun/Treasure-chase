@@ -1,9 +1,6 @@
 package controller;
 
-import model.Board;
-import model.Cell;
-import model.Hunter;
-import model.Position;
+import model.*;
 import vue.GameWindow;
 
 import javax.swing.*;

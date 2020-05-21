@@ -71,7 +71,7 @@ public class EditorController implements ActionListener {
                     this.board.replaceCell(x, y, new CellTreasure(new Position(x, y)));
                 } else if (Color.GRAY.equals(background)) {
                     Hunter newHunter = this.board.addHunter("");
-                    ((CellFree) this.board.getCell(x, y)).setHunter(newHunter);
+                    ((CellFree) this.board.getCell(x, y)).setCurrentHunter(newHunter);
                     newHunter.setCurrentCell(this.board.getCell(x, y));
                 } else if (Color.BLUE.equals(background)) {
                     this.board.replaceCell(x, y, new CellStone(new Position(x, y), CellStone.Orientation.HORIZONTAL, this.board)); // TODO : trouver la bonne orientation
