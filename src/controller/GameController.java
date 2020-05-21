@@ -1,9 +1,9 @@
-package Controller;
+package controller;
 
-import Model.Board;
-import Model.Cell;
-import Model.Hunter;
-import Vue.GameWindow;
+import model.Board;
+import model.Cell;
+import model.Hunter;
+import vue.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +19,11 @@ import java.awt.event.ActionListener;
  */
 public class GameController implements ActionListener {
 
-    private final GameWindow gameWindow;
-    private Board board;
+    private final GameWindow window;
+    private final Board board;
 
     public GameController(GameWindow window, Board board) {
-        this.gameWindow = window;
+        this.window = window;
         this.board = board;
     }
 
@@ -37,21 +37,21 @@ public class GameController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ev) {
-        if (ev.getSource() == this.gameWindow.getButtonNextRound()) {
+        if (ev.getSource() == this.window.getButtonNextRound()) {
             this.board.doRound();
             this.updateCellsLabels();
             this.updateStatusLabel();
 
-            if(this.board.isWinner()) {
-                this.gameWindow.getButtonNextRound().setEnabled(false);
+            if (this.board.isWinner()) {
+                this.window.getButtonNextRound().setEnabled(false);
             }
 
             return;
         }
 
-        if (ev.getSource() == this.gameWindow.getButtonGoToMenu()) {
-            this.gameWindow.getMenu().setVisible(true);
-            this.gameWindow.dispose();
+        if (ev.getSource() == this.window.getButtonGoToMenu()) {
+            this.window.getMenu().setVisible(true);
+            this.window.dispose();
         }
 
 //        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
@@ -72,7 +72,7 @@ public class GameController implements ActionListener {
         for (int y = 0; y < this.board.getBoardHeight(); y++) {
             for (int x = 0; x < this.board.getBoardWidth(); x++) {
 
-                JLabel labelToUpdate = this.gameWindow.getCellLabel(x, y);
+                JLabel labelToUpdate = this.window.getCellLabel(x, y);
 
                 Cell cell = this.board.getCell(x + 1, y + 1);
 
@@ -117,19 +117,15 @@ public class GameController implements ActionListener {
             if (this.board.getWinner() == h) {
                 str.append(" ** WINNER ** ");
             } else {
-                str.append("Model.Position actuelle :  ").append(
-                        h.getCurrentCell().
-                                getPosition().
-                                toString()).
+                str.append("Model.Position actuelle :  ").
+                        append(h.getCurrentCell().getPosition().toString()).
                         append(" | Meilleure direction : ").
-                        append(h.
-                                getDirection().
-                                toString());
+                        append(h.getDirection().toString());
             }
 
             str.append(newline);
         }
 
-        this.gameWindow.getLabelStatus().setText(str.toString());
+        this.window.getLabelStatus().setText(str.toString());
     }
 }

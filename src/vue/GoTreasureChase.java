@@ -1,6 +1,4 @@
-package Vue;
-
-import Vue.GameWindow;
+package vue;
 
 /**
  * Treasure chase

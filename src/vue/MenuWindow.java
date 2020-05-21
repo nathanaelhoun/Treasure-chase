@@ -1,27 +1,22 @@
-package Vue;
+package vue;
 
-import Controller.GameController;
-import Controller.MenuController;
+import controller.MenuController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Treasure chase menu
  *
  * @author Nathanaël Houn
  */
-public class MenuWindow  extends JFrame {
+public class MenuWindow extends JFrame {
 
-    private MenuController controller;
-
-    private JButton buttonNewGame1;
-    private JFormattedTextField textFieldEditorHeight, textFieldEditorWidth;
-    private JButton buttonLaunchEditor;
+    private final JButton buttonNewGame1;
+    private final JFormattedTextField textFieldEditorHeight;
+    private final JFormattedTextField textFieldEditorWidth;
+    private final JButton buttonLaunchEditor;
 
     public MenuWindow() {
         super("Menu | Treasure Chase — Nathanaël Houn");
@@ -29,7 +24,7 @@ public class MenuWindow  extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.controller = new MenuController(this);
+        MenuController controller = new MenuController(this);
 
         Container container = this.getContentPane();
 
@@ -45,7 +40,7 @@ public class MenuWindow  extends JFrame {
 
         // Top panel    :  ------------------------------
         this.buttonNewGame1 = new JButton("Lancer la partie 1");
-        this.buttonNewGame1.addActionListener(this.controller);
+        this.buttonNewGame1.addActionListener(controller);
         actionPanel.add(this.buttonNewGame1);
 
         // Middle panel :  ------------------------------
@@ -58,7 +53,7 @@ public class MenuWindow  extends JFrame {
         editorPanel.add(this.textFieldEditorWidth);
 
         this.buttonLaunchEditor = new JButton("Lancer l'éditeur");
-        this.buttonLaunchEditor.addActionListener(this.controller);
+        this.buttonLaunchEditor.addActionListener(controller);
         actionPanel.add(this.buttonLaunchEditor);
 
         // Bottom panel :  ------------------------------

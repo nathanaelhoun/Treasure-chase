@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Treasure chase
@@ -25,10 +25,7 @@ public class CellFree extends Cell {
     }
 
     public void setHunter(Hunter h) {
-        if (this.currentHunter != null) {
-            System.err.println("Il y a déjà un Model.Hunter dans cette case");
-            return;
-        }
+        assert (this.currentHunter == null);
 
         this.currentHunter = h;
     }
@@ -66,9 +63,9 @@ public class CellFree extends Cell {
         h.setDirection(this.directionToTheTreasure);
     }
 
-    /**************************************************************************
-     * 							Utilities
-     *************************************************************************/
+    // ------------------------------------------------------------------------
+    //                              Utilities
+    // ------------------------------------------------------------------------
 
     /**
      * Search the direction to the treasure from the current cell

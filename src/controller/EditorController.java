@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
-import Model.*;
-import Vue.EditorWindow;
-import Vue.GameWindow;
+import model.*;
+import vue.EditorWindow;
+import vue.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +16,9 @@ import java.awt.event.ActionListener;
  */
 
 public class EditorController implements ActionListener {
-    private EditorWindow window;
+    private final EditorWindow window;
 
-    private Board board;
+    private final Board board;
 
     public EditorController(EditorWindow window, int boardWidth, int boardHeight) {
         this.window = window;
@@ -83,7 +83,7 @@ public class EditorController implements ActionListener {
 
         }
 
-        if (this.board.findAndSetTreasure() == false) {
+        if (!this.board.findAndSetTreasure()) {
             return "Il n'y a pas de trésor sur ce terrain.";
         }
 

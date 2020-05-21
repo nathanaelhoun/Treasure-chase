@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Treasure chase
@@ -32,21 +32,7 @@ public abstract class Cell implements Questionable {
         this.treasure = c;
     }
 
-    public CellTreasure getTreasure() {
-        return this.treasure;
-    }
-
     abstract public String toString();
-
-    /**
-     * Compute the distance between the cell and a given another one
-     *
-     * @param that another cell
-     * @return int the distance
-     */
-    public int distanceWith(Cell that) {
-        return distanceWith(that.getPosition());
-    }
 
     /**
      * Compute the distance between the cell and a given position

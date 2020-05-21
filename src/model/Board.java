@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
@@ -11,15 +11,15 @@ public class Board {
     private final int boardHeight;
     private final int boardWidth;
     private final ArrayList<ArrayList<Cell>> cells;
-    private CellTreasure treasure;
     private final ArrayList<Hunter> hunters;
+    private CellTreasure treasure;
 
     public Board(int width, int height) {
         this.boardWidth = width;
         this.boardHeight = height;
-        this.cells = new ArrayList<ArrayList<Cell>>();
+        this.cells = new ArrayList<>();
         for (int i = 0; i < this.boardHeight + 2; ++i) {
-            this.cells.add(new ArrayList<Cell>());
+            this.cells.add(new ArrayList<>());
         }
         this.boardMakeEmpty();
 
@@ -28,8 +28,8 @@ public class Board {
     }
 
     public Board(int boardNumber) {
-        this.cells = new ArrayList<ArrayList<Cell>>();
-        this.hunters = new ArrayList<Hunter>();
+        this.cells = new ArrayList<>();
+        this.hunters = new ArrayList<>();
         this.treasure = null;
 
         switch (boardNumber) {
@@ -38,7 +38,7 @@ public class Board {
                 this.boardHeight = 12;
                 this.boardWidth = 12;
                 for (int i = 0; i < this.boardHeight + 2; ++i) {
-                    this.cells.add(new ArrayList<Cell>());
+                    this.cells.add(new ArrayList<>());
                 }
                 initialiseHunters(3);
                 this.boardMakePrefabOne();
@@ -72,7 +72,7 @@ public class Board {
     /**
      * Set the treasure for the object and for all the cells
      *
-     * @param treasure
+     * @param treasure the new CellTreasure instance
      */
     public void setTreasure(CellTreasure treasure) {
         this.treasure = treasure;
@@ -104,15 +104,15 @@ public class Board {
 
     @Override
     public String toString() {
-        String board = "";
+        StringBuilder board = new StringBuilder();
         for (ArrayList<Cell> line : cells) {
             for (Cell cell : line) {
-                board += cell.toString();
+                board.append(cell.toString());
             }
-            board += '\n';
+            board.append('\n');
         }
 
-        return board;
+        return board.toString();
     }
 
     /**
@@ -209,9 +209,9 @@ public class Board {
         return this.treasure.getWinner();
     }
 
-    /**************************************************************************
-     * 							Utilities
-     *************************************************************************/
+    // ------------------------------------------------------------------------
+    //                               Utilities
+    // ------------------------------------------------------------------------
 
     /**
      * Find the treasure on the board
@@ -221,7 +221,7 @@ public class Board {
     private CellTreasure findTreasure() {
         for (ArrayList<Cell> line : cells) {
             for (Cell cell : line) {
-                if (cell.toString() == "T") {
+                if (cell.toString().equals("T")) {
                     return (CellTreasure) cell;
                 }
             }
@@ -271,7 +271,7 @@ public class Board {
     /**
      * Initialize a line on the board according to the given description array of strings
      *
-     * @param lineY
+     * @param lineY the number of the line to set
      * @param toSet an array of strings, with #V and #H for walls, "T" for treasure, "." for an empty CellFree and a lettre for a hunter
      */
     private void initialiseLine(int lineY, String[] toSet) {
@@ -304,6 +304,7 @@ public class Board {
                     newCell = new CellFree(pos);
                     Hunter h = getHunterByName(toSet[x - 1]);
                     ((CellFree) newCell).setHunter(h);
+                    assert h != null;
                     h.setCurrentCell(newCell);
             }
 
@@ -318,10 +319,9 @@ public class Board {
      * @return the instance of the hunter from this.hunters
      */
     private Hunter getHunterByName(String name) {
-        int size = this.hunters.size();
-        for (int i = 0; i < size; ++i) {
-            if (this.hunters.get(i).toString().equals(name)) {
-                return this.hunters.get(i);
+        for (Hunter hunter : this.hunters) {
+            if (hunter.toString().equals(name)) {
+                return hunter;
             }
         }
 

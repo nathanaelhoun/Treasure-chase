@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.HashMap;
 
@@ -12,13 +12,6 @@ import java.util.HashMap;
  */
 public class CellStone extends Cell {
 
-    /**
-     * The orientation of the whole wall
-     */
-    public enum Orientation {
-        VERTICAL, HORIZONTAL
-    }
-
     private final Orientation wallOrientation;
     private final HashMap<Direction, Direction> bestDirections;
 
@@ -29,13 +22,6 @@ public class CellStone extends Cell {
         super(p);
         this.wallOrientation = o;
         this.bestDirections = new HashMap<>();
-    }
-
-    /**
-     * @return the orientation
-     */
-    public Orientation getOrientation() {
-        return wallOrientation;
     }
 
     @Override
@@ -64,11 +50,6 @@ public class CellStone extends Cell {
         h.setDirection(this.bestDirections.get(h.getDirection()));
     }
 
-
-    /**************************************************************************
-     * 							Utilities
-     *************************************************************************/
-
     /**
      * TODO : compute the best direction to the treasure for each position.
      * For the moment, the best direction is always set to Model.Direction.NORTH
@@ -77,5 +58,17 @@ public class CellStone extends Cell {
         for (Direction dir : Direction.values()) {
             this.bestDirections.put(dir, Direction.NORTH);
         }
+    }
+
+
+    // ------------------------------------------------------------------------
+    //                              Utilities
+    // ------------------------------------------------------------------------
+
+    /**
+     * The orientation of the whole wall
+     */
+    public enum Orientation {
+        VERTICAL, HORIZONTAL
     }
 }

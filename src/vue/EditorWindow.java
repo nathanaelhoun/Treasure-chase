@@ -1,6 +1,6 @@
-package Vue;
+package vue;
 
-import Controller.EditorController;
+import controller.EditorController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 
 public class EditorWindow extends JFrame {
 
-    private ArrayList<ArrayList<JLabel>> cellLabels;
-    private JButton buttonReturnToMenu;
-    private JButton buttonLaunchGame;
-    private JLabel cellTreasure, hunter;
-    private JLabel errorLabel;
+    private final ArrayList<ArrayList<JLabel>> cellLabels;
+    private final JButton buttonReturnToMenu;
+    private final JButton buttonLaunchGame;
+    private final JLabel cellTreasure;
+    private final JLabel hunter;
+    private final JLabel errorLabel;
 
-    private EditorController controller;
-    private MenuWindow menu;
+    private final MenuWindow menu;
 
     public EditorWindow(MenuWindow menu, int width, int height) {
         super("Éditeur | Treasure Chase — Nathanaël Houn");
@@ -35,7 +35,7 @@ public class EditorWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.menu = menu;
-        this.controller = new EditorController(this, width, height);
+        EditorController controller = new EditorController(this, width, height);
 
         Container container = this.getContentPane();
 
@@ -53,11 +53,11 @@ public class EditorWindow extends JFrame {
         actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.PAGE_AXIS));
 
         this.buttonReturnToMenu = new JButton("Abandonner et retourner au menu");
-        this.buttonReturnToMenu.addActionListener(this.controller);
+        this.buttonReturnToMenu.addActionListener(controller);
         this.buttonReturnToMenu.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.buttonLaunchGame = new JButton("Lancer la partie avec ce terrain");
-        this.buttonLaunchGame.addActionListener(this.controller);
+        this.buttonLaunchGame.addActionListener(controller);
         this.buttonLaunchGame.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.errorLabel = new JLabel();
@@ -73,9 +73,9 @@ public class EditorWindow extends JFrame {
         Border border = LineBorder.createBlackLineBorder();
 
         this.cellLabels = new ArrayList<>();
-        for (Integer y = 0; y < height + 2; y++) {
+        for (int y = 0; y < height + 2; y++) {
             ArrayList<JLabel> line = new ArrayList<>();
-            for (Integer x = 0; x < width + 2; x++) {
+            for (int x = 0; x < width + 2; x++) {
                 JLabel newCellJLabel = new JLabel();
                 newCellJLabel.setHorizontalAlignment(JLabel.CENTER);
                 newCellJLabel.setBorder(border);
@@ -84,11 +84,11 @@ public class EditorWindow extends JFrame {
                 if ((x == 0 || x == width + 1)) {
                     newCellJLabel.setBackground(Color.RED);
                     if (!(y == 0 || y == height + 1)) {
-                        newCellJLabel.setText(y.toString());
+                        newCellJLabel.setText(Integer.toString(y));
                     }
                 } else if (y == 0 || y == height + 1) {
                     newCellJLabel.setBackground(Color.RED);
-                    newCellJLabel.setText(x.toString());
+                    newCellJLabel.setText(Integer.toString(x));
                 } else {
                     newCellJLabel.setTransferHandler(new TransferHandler("background"));
                     newCellJLabel.setBackground(Color.LIGHT_GRAY);

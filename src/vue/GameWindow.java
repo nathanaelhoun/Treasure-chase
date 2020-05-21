@@ -1,7 +1,7 @@
-package Vue;
+package vue;
 
-import Controller.GameController;
-import Model.Board;
+import controller.GameController;
+import model.Board;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class GameWindow extends JFrame {
 
     private final MenuWindow menu;
-    private final GameController gameController;
 
     private final JButton buttonGoToMenu;
     private final JButton buttonNextRound;
@@ -46,10 +45,10 @@ public class GameWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.menu = menu;
-        this.gameController = new GameController(this, board);
-        this.cellLabels = new ArrayList<ArrayList<JLabel>>();
-        for (int y = 0; y < this.gameController.getBoardHeight(); ++y) {
-            this.cellLabels.add(new ArrayList<JLabel>());
+        GameController controller = new GameController(this, board);
+        this.cellLabels = new ArrayList<>();
+        for (int y = 0; y < controller.getBoardHeight(); ++y) {
+            this.cellLabels.add(new ArrayList<>());
         }
 
         Container container = this.getContentPane();
@@ -58,7 +57,7 @@ public class GameWindow extends JFrame {
         JPanel actionPanel = new JPanel();
         container.add("North", actionPanel);
 
-        JPanel boardPanel = new JPanel(new GridLayout(this.gameController.getBoardHeight() + 2, this.gameController.getBoardWidth() + 2));
+        JPanel boardPanel = new JPanel(new GridLayout(controller.getBoardHeight() + 2, controller.getBoardWidth() + 2));
         container.add("Center", boardPanel);
 
         JPanel statusPanel = new JPanel();
@@ -66,36 +65,36 @@ public class GameWindow extends JFrame {
 
         // Top panel : button ------------------------------
         this.buttonGoToMenu = new JButton("Retour au menu");
-        this.buttonGoToMenu.addActionListener(this.gameController);
+        this.buttonGoToMenu.addActionListener(controller);
         actionPanel.add(this.buttonGoToMenu);
 
         this.buttonNextRound = new JButton("Tour suivant");
-        this.buttonNextRound.addActionListener(this.gameController);
+        this.buttonNextRound.addActionListener(controller);
         actionPanel.add(this.buttonNextRound);
 
 //        this.buttonNewGame = new JButton("Nouvelle partie");
-//        this.buttonNewGame.addActionListener(this.gameController);
+//        this.buttonNewGame.addActionListener(this.controller);
 //        actionPanel.add(this.buttonNewGame);
 
 
         // Middle panel : board ------------------------------
         Border border = LineBorder.createBlackLineBorder();
 
-        for (Integer y = 0; y < this.gameController.getBoardHeight() + 2; y++) {
-            for (Integer x = 0; x < this.gameController.getBoardWidth() + 2; x++) {
+        for (int y = 0; y < controller.getBoardHeight() + 2; y++) {
+            for (int x = 0; x < controller.getBoardWidth() + 2; x++) {
                 JLabel newCellLabel = new JLabel();
                 newCellLabel.setHorizontalAlignment(JLabel.CENTER);
                 newCellLabel.setOpaque(true);
                 newCellLabel.setBorder(border);
 
-                if ((x == 0 || x == this.gameController.getBoardWidth() + 1)) {
+                if ((x == 0 || x == controller.getBoardWidth() + 1)) {
                     newCellLabel.setBackground(Color.RED);
-                    if (!(y == 0 || y == this.gameController.getBoardHeight() + 1)) {
-                        newCellLabel.setText(y.toString());
+                    if (!(y == 0 || y == controller.getBoardHeight() + 1)) {
+                        newCellLabel.setText(Integer.toString(y));
                     }
-                } else if (y == 0 || y == this.gameController.getBoardHeight() + 1) {
+                } else if (y == 0 || y == controller.getBoardHeight() + 1) {
                     newCellLabel.setBackground(Color.RED);
-                    newCellLabel.setText(x.toString());
+                    newCellLabel.setText(Integer.toString(x));
                 } else {
                     this.cellLabels.get(y - 1).add(newCellLabel);
                 }
@@ -104,7 +103,7 @@ public class GameWindow extends JFrame {
             }
         }
 
-        this.gameController.updateCellsLabels();
+        controller.updateCellsLabels();
 
         // Bottom panel : status ------------------------------
         this.labelStatus = new JTextArea();
@@ -113,7 +112,7 @@ public class GameWindow extends JFrame {
         this.labelStatus.setBackground(statusPanel.getBackground());
         statusPanel.add(labelStatus);
 
-        this.gameController.updateStatusLabel();
+        controller.updateStatusLabel();
     }
 
 //    public JButton getButtonNewGame() {

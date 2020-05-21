@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
-import Vue.EditorWindow;
-import Vue.GameWindow;
-import Vue.MenuWindow;
+import vue.EditorWindow;
+import vue.GameWindow;
+import vue.MenuWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  */
 public class MenuController implements ActionListener {
 
-    private MenuWindow window;
+    private final MenuWindow window;
 
     public MenuController(MenuWindow window) {
         this.window = window;

@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Treasure chase
@@ -45,6 +45,23 @@ public enum Direction {
 
     private static final Direction[] vals = values();
 
+    /**
+     * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST
+     *
+     * @param dir the current direction
+     * @return the opposite direction
+     */
+    public static Direction reverse(Direction dir) {
+        return vals[(dir.ordinal() + vals.length / 2) % vals.length];
+    }
+
+    /**
+     * @return a random direction
+     */
+    public static Direction getRandom() {
+        return vals[(int) (Math.random() * (vals.length))];
+    }
+
     public String toString() {
         switch (this) {
             case EAST:
@@ -73,22 +90,5 @@ public enum Direction {
         }
 
         return this.toString();
-    }
-
-    /**
-     * Return the opposite direction (for example, the opposite of NORTH_EAST is SOUTH_WEST
-     *
-     * @param dir the current direction
-     * @return the opposite direction
-     */
-    public static Direction reverse(Direction dir) {
-        return vals[(dir.ordinal() + vals.length / 2) % vals.length];
-    }
-
-    /**
-     * @return a random direction
-     */
-    public static Direction getRandom() {
-        return vals[(int) (Math.random() * (vals.length))];
     }
 }

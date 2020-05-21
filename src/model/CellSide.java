@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Treasure chase
