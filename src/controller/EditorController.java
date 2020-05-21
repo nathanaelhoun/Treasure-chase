@@ -67,7 +67,7 @@ public class EditorController implements ActionListener {
                     continue;
                 }
 
-                if (Color.YELLOW.equals(background)) {
+                if (Color.ORANGE.equals(background)) {
                     this.board.replaceCell(x, y, new CellTreasure(new Position(x, y)));
                 } else if (Color.GRAY.equals(background)) {
                     Hunter newHunter = this.board.addHunter("");

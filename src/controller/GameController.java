@@ -120,7 +120,7 @@ public class GameController implements ActionListener {
                         break;
 
                     case "T":
-                        labelToUpdate.setBackground(Color.YELLOW);
+                        labelToUpdate.setBackground(Color.ORANGE);
                         labelToUpdate.setText("T");
                         break;
 
