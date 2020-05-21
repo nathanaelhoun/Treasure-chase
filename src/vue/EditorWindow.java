@@ -7,7 +7,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
@@ -23,6 +25,7 @@ public class EditorWindow extends JFrame {
     private final JButton buttonReturnToMenu;
     private final JButton buttonLaunchGame;
     private final JLabel cellTreasure;
+    private final JLabel cellStone;
     private final JLabel hunter;
     private final JLabel errorLabel;
 
@@ -80,6 +83,12 @@ public class EditorWindow extends JFrame {
                 newCellJLabel.setHorizontalAlignment(JLabel.CENTER);
                 newCellJLabel.setBorder(border);
                 newCellJLabel.setOpaque(true);
+                newCellJLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent mouseEvent) {
+                        newCellJLabel.setBackground(Color.LIGHT_GRAY);
+                    }
+                });
 
                 if ((x == 0 || x == width + 1)) {
                     newCellJLabel.setBackground(Color.RED);
@@ -102,7 +111,7 @@ public class EditorWindow extends JFrame {
 
 
         // Bottom panel :  ------------------------------
-        TitledBorder emptyBorder = BorderFactory.createTitledBorder("Cases disponibles (glisser-déposer sur le terrain pour les placer)");
+        TitledBorder emptyBorder = BorderFactory.createTitledBorder("Cases disponibles (glisser-déposer sur le terrain pour les placer) (cliquer sur une case pour la supprimer)");
         cellsPanel.setPreferredSize(new Dimension(100, 70));
         cellsPanel.setBorder(emptyBorder);
 
@@ -115,8 +124,23 @@ public class EditorWindow extends JFrame {
         this.cellTreasure.setTransferHandler(new TransferHandler("background"));
         this.cellTreasure.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                cellTreasure.setBackground(Color.ORANGE);
                 TransferHandler handler = cellTreasure.getTransferHandler();
                 handler.exportAsDrag(cellTreasure, e, TransferHandler.COPY); // TODO : move instead of copy
+            }
+        });
+
+        this.cellStone = new JLabel("Mur");
+        this.cellStone.setHorizontalAlignment(JLabel.CENTER);
+        this.cellStone.setBorder(border);
+        this.cellStone.setOpaque(true);
+        this.cellStone.setBackground(Color.BLUE);
+        this.cellStone.setTransferHandler(new TransferHandler("background"));
+        this.cellStone.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                cellStone.setBackground(Color.BLUE);
+                TransferHandler handler = cellStone.getTransferHandler();
+                handler.exportAsDrag(cellStone, e, TransferHandler.COPY);
             }
         });
 
@@ -128,6 +152,7 @@ public class EditorWindow extends JFrame {
         this.hunter.setTransferHandler(new TransferHandler("background"));
         this.hunter.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
+                hunter.setBackground(Color.GRAY);
                 TransferHandler handler = hunter.getTransferHandler();
                 handler.exportAsDrag(hunter, e, TransferHandler.COPY);
             }
@@ -137,7 +162,7 @@ public class EditorWindow extends JFrame {
         cellsPanel.add(cellTreasure);
         cellsPanel.add(new JLabel());
         cellsPanel.add(new JLabel());
-        cellsPanel.add(new JLabel());
+        cellsPanel.add(cellStone);
         cellsPanel.add(new JLabel());
         cellsPanel.add(new JLabel());
         cellsPanel.add(hunter);

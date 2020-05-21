@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
  */
 public class MenuController implements ActionListener {
 
+    static final int MAX_BOARD_SURFACE = 5000;
+
     private final MenuWindow window;
     private final String originalTextString;
     private final Color originalColorBackground;
@@ -53,6 +55,11 @@ public class MenuController implements ActionListener {
                 );
             } catch (final NumberFormatException e) {
                 this.window.getLabelEditorStatus().setText("La hauteur fournie est incorrecte.");
+                launchEditor = false;
+            }
+
+            if (width * height > MAX_BOARD_SURFACE) {
+                this.window.getLabelEditorStatus().setText("La grille demandée est trop grande.");
                 launchEditor = false;
             }
 
