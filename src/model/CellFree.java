@@ -47,7 +47,7 @@ public class CellFree extends Cell {
      * When a hunter aims to this cell, he is :
      * - redirected to a random direction if the cell is taken by another hunter
      * - moved to the current cell and redirected to the best direction to the treasure if the cell is free
-     *
+     * <p>
      * When the first Hunter ask to be processed, calculate the best direction to the treasure
      * and store it in directionToTheTreasure for the next Hunter
      *
@@ -77,7 +77,6 @@ public class CellFree extends Cell {
     /**
      * Search the direction to the treasure from the current cell
      * and save it in the cell
-     *
      */
     private void computeDirectionToTheTreasure() {
         Direction computedDirection = Direction.SOUTH_WEST; // initialised with a random useless value

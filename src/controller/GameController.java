@@ -31,7 +31,9 @@ public class GameController implements ActionListener {
         return board.HEIGHT;
     }
 
-    public int getBoardWidth() { return board.WIDTH; }
+    public int getBoardWidth() {
+        return board.WIDTH;
+    }
 
     @Override
     public void actionPerformed(ActionEvent ev) {

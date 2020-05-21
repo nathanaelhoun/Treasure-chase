@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class Board {
     public final int HEIGHT;
     public final int WIDTH;
-    private ArrayList<ArrayList<Cell>> cells;
-    private ArrayList<Hunter> hunters;
+    private final ArrayList<ArrayList<Cell>> cells;
+    private final ArrayList<Hunter> hunters;
     private CellTreasure treasure;
 
     /**
@@ -46,29 +46,26 @@ public class Board {
         switch (boardNumber) {
             case 1:
             default:
+                // Make this board
+                // ++++++++++++++
+                // +············+
+                // +············+
+                // +···#········+
+                // +·T·#·····A··+
+                // +···#········+
+                // +···#········+
+                // +···#··###···+
+                // +···#···C····+
+                // +···#····B···+
+                // +············+
+                // +············+
+                // +············+
+                // ++++++++++++++
                 this.HEIGHT = 12;
                 this.WIDTH = 12;
                 for (int i = 0; i < this.HEIGHT + 2; ++i) {
                     this.cells.add(new ArrayList<>());
                 }
-                /**
-                 * Place the cells on the board like this
-                 * <p>
-                 * ++++++++++++++
-                 * +············+
-                 * +············+
-                 * +···#········+
-                 * +·T·#·····A··+
-                 * +···#········+
-                 * +···#········+
-                 * +···#··###···+
-                 * +···#···C····+
-                 * +···#····B···+
-                 * +············+
-                 * +············+
-                 * +············+
-                 * ++++++++++++++
-                 */
                 initialiseTopLeftAndBottomSides();
                 initialiseEmptyLine(1);
                 initialiseEmptyLine(2);

@@ -12,17 +12,9 @@ import java.util.HashMap;
  */
 public class CellStone extends Cell {
 
-    /**
-     * The orientation of the whole wall
-     */
-    public enum Orientation {
-        VERTICAL, HORIZONTAL
-    }
-
-    private HashMap<Position, Direction> bestDirections;
+    private final HashMap<Position, Direction> bestDirections;
     private final Orientation wallOrientation;
     private final Board board;
-
     /**
      * @param p Model.Cell position in the map
      */
@@ -51,7 +43,7 @@ public class CellStone extends Cell {
      * The best direction of the treasure depends on where it is, in relation with the current location of the hunter
      * We found it by computing the distance to each end of the wall, and then the distance with the treasure from the end of the wall
      * The lower value between each side is the best direction to follow
-     *
+     * <p>
      * The best direction is computed at the first call to the function,
      * and then it is stored in the HashMap bestDirections
      *
@@ -106,11 +98,6 @@ public class CellStone extends Cell {
         h.setDirection(newDirection);
     }
 
-
-    // ------------------------------------------------------------------------
-    //                              Utilities
-    // ------------------------------------------------------------------------
-
     /**
      * @return the cell at the north end of the wall
      */
@@ -124,6 +111,11 @@ public class CellStone extends Cell {
 
         return this.board.getCell(this.position.getX(), topY);
     }
+
+
+    // ------------------------------------------------------------------------
+    //                              Utilities
+    // ------------------------------------------------------------------------
 
     /**
      * @return the cell at the south end of the wall
@@ -165,5 +157,12 @@ public class CellStone extends Cell {
         }
 
         return this.board.getCell(rightX, this.position.getY());
+    }
+
+    /**
+     * The orientation of the whole wall
+     */
+    public enum Orientation {
+        VERTICAL, HORIZONTAL
     }
 }
