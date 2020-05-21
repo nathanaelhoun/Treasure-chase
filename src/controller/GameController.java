@@ -28,11 +28,11 @@ public class GameController implements ActionListener {
     }
 
     public int getBoardHeight() {
-        return this.board.getBoardHeight();
+        return board.HEIGHT;
     }
 
     public int getBoardWidth() {
-        return this.board.getBoardWidth();
+        return board.WIDTH;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class GameController implements ActionListener {
      * Update all the cells labels from the model
      */
     public void updateCellsLabels() {
-        for (int y = 0; y < this.board.getBoardHeight(); y++) {
-            for (int x = 0; x < this.board.getBoardWidth(); x++) {
+        for (int y = 0; y < this.board.HEIGHT; y++) {
+            for (int x = 0; x < this.board.HEIGHT; x++) {
 
                 JLabel labelToUpdate = this.window.getCellLabel(x, y);
 
@@ -114,7 +114,7 @@ public class GameController implements ActionListener {
         for (Hunter h : this.board.getHunters()) {
             str.append("Personnage ").append(h.toString()).append(" : ");
 
-            if (this.board.getWinner() == h) {
+            if (this.board.getTreasure().getWinner() == h) {
                 str.append(" ** WINNER ** ");
             } else {
                 str.append("Model.Position actuelle :  ").

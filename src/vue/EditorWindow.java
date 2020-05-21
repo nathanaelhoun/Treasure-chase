@@ -46,7 +46,7 @@ public class EditorWindow extends JFrame {
         JPanel boardPanel = new JPanel(new GridLayout(height + 2, width + 2));
         container.add("Center", boardPanel);
 
-        JPanel cellsPanel = new JPanel(new GridLayout(1, width + 2, 10, 50));
+        JPanel cellsPanel = new JPanel(new GridLayout(1, 9, 10, 50));
         container.add("South", cellsPanel);
 
         // Top panel    :  ------------------------------
@@ -133,13 +133,13 @@ public class EditorWindow extends JFrame {
             }
         });
 
-        int NUMBER_OF_CELLS = 4;
-
         cellsPanel.add(new JLabel());
         cellsPanel.add(cellTreasure);
-        for (int i = NUMBER_OF_CELLS; i < width; ++i) {
-            cellsPanel.add(new JLabel());
-        }
+        cellsPanel.add(new JLabel());
+        cellsPanel.add(new JLabel());
+        cellsPanel.add(new JLabel());
+        cellsPanel.add(new JLabel());
+        cellsPanel.add(new JLabel());
         cellsPanel.add(hunter);
         cellsPanel.add(new JLabel());
 

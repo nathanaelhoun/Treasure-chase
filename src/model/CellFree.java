@@ -21,12 +21,12 @@ public class CellFree extends Cell {
     @Override
     public void setTreasure(CellTreasure c) {
         this.treasure = c;
-        this.directionToTheTreasure = this.computeDirectionToTheTreasure();
+        this.directionToTheTreasure = null;
     }
+
 
     public void setHunter(Hunter h) {
         assert (this.currentHunter == null);
-
         this.currentHunter = h;
     }
 
@@ -47,6 +47,9 @@ public class CellFree extends Cell {
      * When a hunter aims to this cell, he is :
      * - redirected to a random direction if the cell is taken by another hunter
      * - moved to the current cell and redirected to the best direction to the treasure if the cell is free
+     * <p>
+     * When the first Hunter ask to be processed, calculate the best direction to the treasure
+     * and store it in directionToTheTreasure for the next Hunter
      *
      * @param h the Model.Hunter to process
      */
@@ -60,6 +63,10 @@ public class CellFree extends Cell {
         h.getCurrentCell().removeHunter();
         this.currentHunter = h;
         h.setCurrentCell(this);
+
+        if (this.directionToTheTreasure == null) {
+            this.computeDirectionToTheTreasure();
+        }
         h.setDirection(this.directionToTheTreasure);
     }
 
@@ -69,24 +76,23 @@ public class CellFree extends Cell {
 
     /**
      * Search the direction to the treasure from the current cell
-     *
-     * @return the direction to the treasure
+     * and save it in the cell
      */
-    private Direction computeDirectionToTheTreasure() {
-        Direction directionToTheTreasure = Direction.SOUTH_WEST; // initialised with a random useless value
-
+    private void computeDirectionToTheTreasure() {
+        Direction computedDirection = Direction.SOUTH_WEST; // initialised with a random useless value
         int lowerDistance = Integer.MAX_VALUE;
 
         for (Direction dir : Direction.values()) {
-            Position testPosition = this.position.currentPositionPlusDirection(dir);
+            Position testPosition = this.position.computePosition(dir);
             int testedDistance = this.treasure.distanceWith(testPosition);
+
             if (testedDistance < lowerDistance) {
                 lowerDistance = testedDistance;
-                directionToTheTreasure = dir;
+                computedDirection = dir;
             }
         }
 
-        return directionToTheTreasure;
+        this.directionToTheTreasure = computedDirection;
     }
 }
 
