@@ -61,7 +61,7 @@ TODO : Captures d'écran pour les points intéressant du programme
 
 ### Outils utilisés et organisation du travail
 
-Après avoir utilisé Eclipse pendant la première partie du projet, je suis passé sous IntelliJ IDEA, IDE de JetBrains entièrement compatible avec Eclipse, pendant le développement de la version graphique, car celui-ci proposait une gestion plus facile de la bibliothèque JSwing. 
+Après avoir utilisé Eclipse pendant la première partie du projet, je suis passé sous IntellijIDEA, IDE de JetBrains entièrement compatible avec Eclipse, pendant le développement de la version graphique, car celui-ci proposait une gestion plus facile de la bibliothèque JSwing. J'ai aussi fait le menu principal en utillisant l'outil _GUI Designer_ d'IntellijIDEA, afin de découvrir cet outil, ayant déjà fait toutes les autres interfaces à la main.
 
 Git a été l'outil de versionnage utilisé tout au long du projet, avec au début 3 branches : `master`, `version-console` et `version-graphique`. Avant le rendu de la version console, les modifications sur le modèle étaient faites dans la branche `version-console`, avant d'être amenées dans le `master` afin d'être réintégrées dans la branche `version-graphique`. Ensuite, tout le code a été centralisé dans la branche principale `master` jusqu'à la fin du projet afin de gagner en temps et en simplicité.
 

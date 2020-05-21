@@ -16,9 +16,13 @@ import java.awt.event.ActionListener;
 public class MenuController implements ActionListener {
 
     private final MenuWindow window;
+    private final String originalTextString;
+    private final Color originalColorBackground;
 
     public MenuController(MenuWindow window) {
         this.window = window;
+        this.originalTextString = this.window.getLabelEditorStatus().getText();
+        this.originalColorBackground = this.window.getLabelEditorStatus().getBackground();
     }
 
     @Override
@@ -53,7 +57,8 @@ public class MenuController implements ActionListener {
             }
 
             if (launchEditor) {
-                this.window.getLabelEditorStatus().setText("");
+                this.window.getLabelEditorStatus().setText(originalTextString);
+                this.window.getLabelEditorStatus().setBackground(originalColorBackground);
                 this.window.setVisible(false);
                 EditorWindow editor = new EditorWindow(this.window, width, height);
                 editor.start();
