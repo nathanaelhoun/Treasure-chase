@@ -38,7 +38,8 @@ public class CellSide extends Cell {
     public void process(Hunter h) {
         h.setDirection(Direction.reverse(h.getDirection()));
 
-        while (isAimingToASide(h)) {
+        int tries = 0; // prevent from infinite loop if the player is surrounded by walls
+        while (isAimingToASide(h) && ++tries < 8) {
             h.setDirection(Direction.rotate(h.getDirection()));
         }
     }

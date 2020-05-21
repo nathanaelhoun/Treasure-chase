@@ -1,5 +1,7 @@
 package model;
 
+import java.util.HashMap;
+
 /**
  * Treasure chase
  * <p>
@@ -17,6 +19,7 @@ public class CellStone extends Cell {
         VERTICAL, HORIZONTAL
     }
 
+    private HashMap<Position, Direction> bestDirections;
     private final Orientation wallOrientation;
     private final Board board;
 
@@ -26,6 +29,7 @@ public class CellStone extends Cell {
     public CellStone(Position p, Orientation o, Board board) {
         super(p);
         this.wallOrientation = o;
+        this.bestDirections = new HashMap<>();
         this.board = board;
     }
 
@@ -48,19 +52,29 @@ public class CellStone extends Cell {
      * We found it by computing the distance to each end of the wall, and then the distance with the treasure from the end of the wall
      * The lower value between each side is the best direction to follow
      *
+     * The best direction is computed at the first call to the function,
+     * and then it is stored in the HashMap bestDirections
+     *
      * @param h the Model.Hunter to process
      */
     @Override
     public void process(Hunter h) {
+        Position hunterPosition = h.getCurrentCell().getPosition();
+
+        if (this.bestDirections.containsKey(hunterPosition)) {
+            h.setDirection(this.bestDirections.get(hunterPosition));
+            return;
+        }
+
         Direction newDirection;
         switch (this.wallOrientation) {
             case HORIZONTAL:
                 Cell wallWest = findWestEndOfTheWall();
                 Cell wallEast = findEastEndOfTheWall();
 
-                int distanceByWest = wallWest.distanceWith(h.getCurrentCell())
+                int distanceByWest = wallWest.distanceWith(hunterPosition)
                         + wallWest.distanceWith(this.treasure);
-                int distanceByEast = wallEast.distanceWith(h.getCurrentCell())
+                int distanceByEast = wallEast.distanceWith(hunterPosition)
                         + wallEast.distanceWith(this.treasure);
 
                 newDirection = Direction.WEST;
@@ -73,9 +87,9 @@ public class CellStone extends Cell {
                 Cell wallNorth = findNorthEndOfTheWall();
                 Cell wallSouth = findSouthEndOfTheWall();
 
-                int distanceBySouth = wallSouth.distanceWith(h.getCurrentCell())
+                int distanceBySouth = wallSouth.distanceWith(hunterPosition)
                         + wallSouth.distanceWith(this.treasure);
-                int distanceByNorth = wallNorth.distanceWith(h.getCurrentCell())
+                int distanceByNorth = wallNorth.distanceWith(hunterPosition)
                         + wallNorth.distanceWith(this.treasure);
 
                 newDirection = Direction.NORTH;
@@ -88,6 +102,7 @@ public class CellStone extends Cell {
                 throw new IllegalStateException("Valeur impossible : " + this.wallOrientation);
         }
 
+        this.bestDirections.put(hunterPosition, newDirection);
         h.setDirection(newDirection);
     }
 
