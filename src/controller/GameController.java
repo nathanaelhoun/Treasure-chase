@@ -122,7 +122,7 @@ public class GameController implements ActionListener {
                         append(" | Meilleure direction : ").
                         append(h.getDirection().toString());
             }
-
+            // TODO : special string when hitting a wall
             str.append(newline);
         }
 

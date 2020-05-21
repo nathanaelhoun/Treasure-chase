@@ -285,11 +285,11 @@ public class Board {
 
             switch (toSet[x - 1]) {
                 case "#V":
-                    newCell = new CellStone(pos, CellStone.Orientation.VERTICAL);
+                    newCell = new CellStone(pos, CellStone.Orientation.VERTICAL, this);
                     break;
 
                 case "#H":
-                    newCell = new CellStone(pos, CellStone.Orientation.HORIZONTAL);
+                    newCell = new CellStone(pos, CellStone.Orientation.HORIZONTAL, this);
                     break;
 
                 case "T":

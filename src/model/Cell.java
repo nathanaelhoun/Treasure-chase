@@ -43,4 +43,14 @@ public abstract class Cell implements Questionable {
     public int distanceWith(Position pos) {
         return (int) (Math.pow(this.getPosition().getX() - pos.getX(), 2) + Math.pow(this.getPosition().getY() - pos.getY(), 2));
     }
+
+    /**
+     * Compute the distance between the cell and an another one
+     *
+     * @param that the other cell
+     * @return int the distance
+     */
+    public int distanceWith(Cell that) {
+        return distanceWith(that.position);
+    }
 }

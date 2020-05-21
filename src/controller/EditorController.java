@@ -74,7 +74,7 @@ public class EditorController implements ActionListener {
                     ((CellFree) this.board.getCell(x, y)).setHunter(newHunter);
                     newHunter.setCurrentCell(this.board.getCell(x, y));
                 } else if (Color.BLUE.equals(background)) {
-                    this.board.replaceCell(x, y, new CellStone(new Position(x, y), CellStone.Orientation.HORIZONTAL)); // TODO : trouver la bonne orientation
+                    this.board.replaceCell(x, y, new CellStone(new Position(x, y), CellStone.Orientation.HORIZONTAL, this.board)); // TODO : trouver la bonne orientation
                 } else {
                     System.err.println("Erreur lors du parcours du tableau de l'éditeur à la case (" + x + ", " + y + "). Couleur inconnue : " + currentLabel.getBackground());
                     return "Case inconnue : (" + x + ", " + y + ").";

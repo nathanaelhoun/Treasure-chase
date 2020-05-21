@@ -26,8 +26,18 @@ Le diagramme de classe ci-dessus présente la structure utilisée du _package_ m
 - Hunter gagne une fonction `getWantedPosition()`
 - Les attributs de Cell sont maintenant en protected
 - Cell gagne un attribut `treasure` qui contient une référence vers le trésor du Board
-- Les classes héritées de Cell ont été complètement réécrites, notamment pour contenir les directions pour les Hunters, calculées à l'initialisation du Board plutôt qu'à l'exécution du programme
+- Les classes héritées de Cell ont été complètement réécrites, notamment pour contenir les directions pour les Hunters, calculées à l'initialisation du Board plutôt qu'à l'exécution du programme (sauf pour CellStone, pour laquelle la direction est toujours calculée à l'éxecution)
 - De nombreuses méthodes ont été rajoutées dans Board pour la gestion de l'éditeur graphique, permettant à l'éditeur graphique de modifier les attributs du Board
+
+### Implémentation de `process()` pour chaque type de cellule
+
+Pour `CellFree`, la meilleure direction vers le trésor étant toujours la même, elle est calculée à l'initialisation du Board. `CellFree.process()` consiste donc uniquement à donner cette direction au Hunter
+
+Pour `CellStone`, la meilleure direction à prendre pour contourner le mur dépend de l'emplacement du joueur. Elle est donc calculée à l'exécution, quand le joueur rencontre la pierre.
+
+
+
+
 
 TODO : choix justifié de structures de données, éventuels algorithmes intéressants
 
