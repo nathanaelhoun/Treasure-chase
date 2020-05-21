@@ -36,3 +36,21 @@ Sujet2020-chasseTresor.pdf
 /Treasure-chase-Nathanael-Houn.iml
 /.project
 /Treasure-chase.eml
+
+# OS files
+.DS_Store
+
+# VS Code
+.vscode
+
+# LateX
+*.tex
+*.aux
+*.log
+*.toc
+*.log
+*.pdf
+
+# Bibtex
+*.bbl
+*.blg

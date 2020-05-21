@@ -3,8 +3,6 @@ package vue;
 import controller.MenuController;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 
 /**
  * Treasure chase
@@ -24,7 +22,7 @@ public class MenuWindow extends JFrame {
     private JFormattedTextField textFieldEditorWidth;
     private JFormattedTextField textFieldEditorHeight;
     private JLabel labelEditorStatus;
-    private final MenuController controller;
+    private JButton buttonQuit;
 
     public MenuWindow() {
         super("Menu | Treasure Chase — Nathanaël Houn");
@@ -33,9 +31,10 @@ public class MenuWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
-        this.controller = new MenuController(this);
-        buttonNewGame1.addActionListener(this.controller);
-        buttonLaunchEditor.addActionListener(this.controller);
+        MenuController controller = new MenuController(this);
+        buttonNewGame1.addActionListener(controller);
+        buttonLaunchEditor.addActionListener(controller);
+        buttonQuit.addActionListener(controller);
 
         this.setContentPane(this.panelMain);
     }
@@ -46,6 +45,10 @@ public class MenuWindow extends JFrame {
 
     public JButton getButtonNewGame1() {
         return buttonNewGame1;
+    }
+
+    public JButton getButtonQuit() {
+        return buttonQuit;
     }
 
     public JFormattedTextField getTextFieldEditorHeightValue() {

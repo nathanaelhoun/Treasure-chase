@@ -35,6 +35,10 @@ public class MenuController implements ActionListener {
             game.setVisible(true);
         }
 
+        if (ev.getSource() == window.getButtonQuit()) {
+            System.exit(0);
+        }
+
         if (ev.getSource() == window.getButtonLaunchEditor()) {
             boolean launchEditor = true;
 

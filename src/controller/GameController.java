@@ -104,7 +104,7 @@ public class GameController implements ActionListener {
      */
     public void initialiseCellLabels() {
         for (int y = 0; y < this.board.HEIGHT; y++) {
-            for (int x = 0; x < this.board.HEIGHT; x++) {
+            for (int x = 0; x < this.board.WIDTH; x++) {
 
                 JLabel labelToUpdate = this.window.getCellLabel(x, y);
 

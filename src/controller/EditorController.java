@@ -59,7 +59,7 @@ public class EditorController implements ActionListener {
      */
     private String buildBoard() {
         for (int y = 1; y <= this.board.HEIGHT; y++) {
-            for (int x = 1; x <= this.board.HEIGHT; x++) {
+            for (int x = 1; x <= this.board.WIDTH; x++) {
                 JLabel currentLabel = this.window.getCellLabels().get(y).get(x);
                 Color background = currentLabel.getBackground();
                 if (Color.RED.equals(background) || Color.LIGHT_GRAY.equals(background)) {

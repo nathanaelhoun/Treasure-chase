@@ -24,10 +24,6 @@ public class CellFree extends Cell {
         this.directionToTheTreasure = null;
     }
 
-    public Hunter getCurrentHunter() {
-        return currentHunter;
-    }
-
     public void setCurrentHunter(Hunter h) {
         assert (this.currentHunter == null);
         this.currentHunter = h;

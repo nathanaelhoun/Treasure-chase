@@ -9,7 +9,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
@@ -115,7 +114,6 @@ public class EditorWindow extends JFrame {
         cellsPanel.setPreferredSize(new Dimension(100, 70));
         cellsPanel.setBorder(emptyBorder);
 
-        // TODO : forbid drop on these elements
         this.cellTreasure = new JLabel("Trésor");
         this.cellTreasure.setHorizontalAlignment(JLabel.CENTER);
         this.cellTreasure.setBorder(border);
@@ -126,7 +124,7 @@ public class EditorWindow extends JFrame {
             public void mouseDragged(MouseEvent e) {
                 cellTreasure.setBackground(Color.ORANGE);
                 TransferHandler handler = cellTreasure.getTransferHandler();
-                handler.exportAsDrag(cellTreasure, e, TransferHandler.COPY); // TODO : move instead of copy
+                handler.exportAsDrag(cellTreasure, e, TransferHandler.COPY);
             }
         });
 
