@@ -19,6 +19,12 @@ public class MenuWindow extends JFrame {
     static public final Color COLOR_BG_ERROR = Color.ORANGE;
     static public final Color COLOR_BG_DEFAULT = new Color(238, 238, 238);
 
+    // Theses colors must be different from each others
+    static public final Color COLOR_CELL_FREE = Color.LIGHT_GRAY;
+    static public final Color COLOR_CELL_TREASURE = Color.ORANGE;
+    static public final Color COLOR_CELL_HUNTER = Color.GRAY;
+    static public final Color COLOR_CELL_STONE = Color.BLUE;
+
     private JPanel panelMain;
 
     private JButton buttonNewGame1;
