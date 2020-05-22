@@ -1,13 +1,15 @@
 Treasure-chase
 =============
 
-Par [Nathanaël Houn](https://github.com/nathanaelhoun)
+Par [Nathanaël Houn](https://github.com/nathanaelhoun).
 
 # Présentation
 
-L'application est un jeu de chasse au Trésor dans laquelle des personnages autonomes se déplacent sur le terrain pour accéder à un trésor, contournant les murs et les autres obstacles possibles.
-
 ![screenshot](imgs/screenshot.png "Capture d'écran d'une partie en cours")
+
+L'application est un jeu de chasse au Trésor dans laquelle des personnages autonomes se déplacent sur le terrain pour accéder à un trésor, contournant les murs et les autres obstacles possibles. 
+Vous pouvez télécharger la dernière version du jeu depuis la [page des _releases_](https://github.com/nathanaelhoun/treasure-chase/releases). 
+N'hésitez pas à [créer une _issue_](https://github.com/nathanaelhoun/Treasure-chase/issues/new) si vous trouvez un bug.
 
 ## Fonctionnalités
 
@@ -63,7 +65,7 @@ Tous les `process()` sont appelés par le `Board` à chaque tour dans `doRound()
 La méthode `doRound` renvoie une `HashMap<Position, Position>`, afin d'avoir tous les déplacements qui ont été effectués pendant le tour, utilisés pendant la mise à jour du plateau graphique (afin d'éviter de mettre à jour tout le terrain à chaque tour). 
 L'utilisation d'une `HashMap` permet d'avoir accès aux couples de valeurs <ancienne position, nouvelle position>, rassemblée dans une `Map.Entry`.
 
-## Choix des structures de données
+## Choix des structures de données
 
 Deux structures de données principales ont été utilisées dans ce projet :
 - les `Java.util.ArrayList`, notamment sous forme d'`ArrayList<ArrayList<>>` pour les cases dans `Board` et pour les labels correspondant dans `GameWindow`. 
