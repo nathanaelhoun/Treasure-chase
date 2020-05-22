@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
+import static vue.MenuWindow.*;
+
 /**
  * Treasure chase Editor
  *
@@ -63,7 +65,7 @@ public class EditorWindow extends JFrame {
         this.buttonLaunchGame.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.errorLabel = new JLabel();
-        this.errorLabel.setBackground(Color.ORANGE);
+        this.errorLabel.setBackground(COLOR_BG_ERROR);
         this.errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         actionPanel.add(this.buttonReturnToMenu);
@@ -85,21 +87,23 @@ public class EditorWindow extends JFrame {
                 newCellJLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent mouseEvent) {
-                        newCellJLabel.setBackground(Color.LIGHT_GRAY);
+                        newCellJLabel.setBackground(COLOR_CELL_FREE);
                     }
                 });
 
                 if ((x == 0 || x == width + 1)) {
-                    newCellJLabel.setBackground(Color.RED);
+                    newCellJLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellJLabel.setForeground(COLOR_CELL_SIDE_FG);
                     if (!(y == 0 || y == height + 1)) {
                         newCellJLabel.setText(Integer.toString(y));
                     }
                 } else if (y == 0 || y == height + 1) {
-                    newCellJLabel.setBackground(Color.RED);
+                    newCellJLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellJLabel.setForeground(COLOR_CELL_SIDE_FG);
                     newCellJLabel.setText(Integer.toString(x));
                 } else {
                     newCellJLabel.setTransferHandler(new TransferHandler("background"));
-                    newCellJLabel.setBackground(Color.LIGHT_GRAY);
+                    newCellJLabel.setBackground(COLOR_CELL_FREE);
                 }
 
                 line.add(newCellJLabel);
@@ -118,11 +122,11 @@ public class EditorWindow extends JFrame {
         this.cellTreasure.setHorizontalAlignment(JLabel.CENTER);
         this.cellTreasure.setBorder(border);
         this.cellTreasure.setOpaque(true);
-        this.cellTreasure.setBackground(Color.ORANGE);
+        this.cellTreasure.setBackground(COLOR_CELL_TREASURE);
         this.cellTreasure.setTransferHandler(new TransferHandler("background"));
         this.cellTreasure.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                cellTreasure.setBackground(Color.ORANGE);
+                cellTreasure.setBackground(COLOR_CELL_TREASURE);
                 TransferHandler handler = cellTreasure.getTransferHandler();
                 handler.exportAsDrag(cellTreasure, e, TransferHandler.COPY);
             }
@@ -132,11 +136,11 @@ public class EditorWindow extends JFrame {
         this.cellStone.setHorizontalAlignment(JLabel.CENTER);
         this.cellStone.setBorder(border);
         this.cellStone.setOpaque(true);
-        this.cellStone.setBackground(Color.BLUE);
+        this.cellStone.setBackground(COLOR_CELL_STONE);
         this.cellStone.setTransferHandler(new TransferHandler("background"));
         this.cellStone.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                cellStone.setBackground(Color.BLUE);
+                cellStone.setBackground(COLOR_CELL_STONE);
                 TransferHandler handler = cellStone.getTransferHandler();
                 handler.exportAsDrag(cellStone, e, TransferHandler.COPY);
             }
@@ -146,11 +150,11 @@ public class EditorWindow extends JFrame {
         this.hunter.setHorizontalAlignment(JLabel.CENTER);
         this.hunter.setBorder(border);
         this.hunter.setOpaque(true);
-        this.hunter.setBackground(Color.GRAY);
+        this.hunter.setBackground(COLOR_CELL_HUNTER);
         this.hunter.setTransferHandler(new TransferHandler("background"));
         this.hunter.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                hunter.setBackground(Color.GRAY);
+                hunter.setBackground(COLOR_CELL_HUNTER);
                 TransferHandler handler = hunter.getTransferHandler();
                 handler.exportAsDrag(hunter, e, TransferHandler.COPY);
             }

@@ -9,6 +9,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static vue.MenuWindow.COLOR_CELL_SIDE;
+import static vue.MenuWindow.COLOR_CELL_SIDE_FG;
+
 /**
  * Treasure chase
  * <p>
@@ -88,12 +91,14 @@ public class GameWindow extends JFrame {
                 newCellLabel.setBorder(border);
 
                 if ((x == 0 || x == controller.getBoardWidth() + 1)) {
-                    newCellLabel.setBackground(Color.RED);
+                    newCellLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellLabel.setForeground(COLOR_CELL_SIDE_FG);
                     if (!(y == 0 || y == controller.getBoardHeight() + 1)) {
                         newCellLabel.setText(Integer.toString(y));
                     }
                 } else if (y == 0 || y == controller.getBoardHeight() + 1) {
-                    newCellLabel.setBackground(Color.RED);
+                    newCellLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellLabel.setForeground(COLOR_CELL_SIDE_FG);
                     newCellLabel.setText(Integer.toString(x));
                 } else {
                     this.cellLabels.get(y - 1).add(newCellLabel);

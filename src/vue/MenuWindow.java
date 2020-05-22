@@ -23,7 +23,10 @@ public class MenuWindow extends JFrame {
     static public final Color COLOR_CELL_FREE = Color.LIGHT_GRAY;
     static public final Color COLOR_CELL_TREASURE = Color.ORANGE;
     static public final Color COLOR_CELL_HUNTER = Color.GRAY;
+    static public final Color COLOR_CELL_HUNTER_WINNER = Color.YELLOW;
     static public final Color COLOR_CELL_STONE = Color.BLUE;
+    static public final Color COLOR_CELL_SIDE = Color.DARK_GRAY;
+    static public final Color COLOR_CELL_SIDE_FG = Color.WHITE;
 
     private JPanel panelMain;
 

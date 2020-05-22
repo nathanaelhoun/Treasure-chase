@@ -1,14 +1,18 @@
 package controller;
 
-import model.*;
+import model.Board;
+import model.Cell;
+import model.Hunter;
+import model.Position;
 import vue.GameWindow;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+
+import static vue.MenuWindow.*;
 
 /**
  * Treasure chase
@@ -86,14 +90,14 @@ public class GameController implements ActionListener {
 
             if (originCell.toString().equals("·")) {
                 // else : there is a Hunter on this cell, don't overwrite him
-                originJLabel.setBackground(Color.LIGHT_GRAY);
+                originJLabel.setBackground(COLOR_CELL_FREE);
                 originJLabel.setText("·");
             }
 
             if (this.board.isWinner() && this.board.getTreasure() == destinationCell) {
-                destinationJLabel.setBackground(Color.YELLOW);
+                destinationJLabel.setBackground(COLOR_CELL_HUNTER_WINNER);
             } else {
-                destinationJLabel.setBackground(Color.GRAY);
+                destinationJLabel.setBackground(COLOR_CELL_HUNTER);
             }
             destinationJLabel.setText(destinationCell.toString());
         }
@@ -112,21 +116,21 @@ public class GameController implements ActionListener {
 
                 switch (cell.toString()) {
                     case "·":
-                        labelToUpdate.setBackground(Color.LIGHT_GRAY);
+                        labelToUpdate.setBackground(COLOR_CELL_FREE);
                         labelToUpdate.setText("·");
                         break;
 
                     case "#":
-                        labelToUpdate.setBackground(Color.BLUE);
+                        labelToUpdate.setBackground(COLOR_CELL_STONE);
                         break;
 
                     case "T":
-                        labelToUpdate.setBackground(Color.ORANGE);
+                        labelToUpdate.setBackground(COLOR_CELL_TREASURE);
                         labelToUpdate.setText("T");
                         break;
 
                     default:
-                        labelToUpdate.setBackground(Color.GRAY);
+                        labelToUpdate.setBackground(COLOR_CELL_HUNTER);
                         labelToUpdate.setText(cell.toString());
                 }
             }
