@@ -138,4 +138,49 @@ public enum Direction {
         }
         return super.toString();
     }
+
+    /**
+     * Convert a direction to the nearest vertical direction (for example, NORTH_EAST -> NORTH)
+     *
+     * @return a vertical direction
+     */
+    public Direction toVertical() {
+        switch (this) {
+            case NORTH_EAST:
+            case NORTH:
+            case NORTH_WEST:
+                return Direction.NORTH;
+
+            case SOUTH_WEST:
+            case SOUTH:
+            case SOUTH_EAST:
+                return Direction.SOUTH;
+
+            default:
+                return this;
+        }
+    }
+
+    /**
+     * Convert a direction to the nearest horizontal direction (for example, NORTH_EAST -> EAST)
+     *
+     * @return a horizontal direction
+     */
+    public Direction toHorizontal() {
+        switch (this) {
+            case NORTH_EAST:
+            case SOUTH_EAST:
+            case EAST:
+                return Direction.EAST;
+
+            case NORTH_WEST:
+            case SOUTH_WEST:
+            case WEST:
+                return Direction.WEST;
+
+            default:
+                return this;
+        }
+    }
+
 }

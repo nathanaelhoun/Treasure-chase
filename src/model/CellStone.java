@@ -15,6 +15,7 @@ public class CellStone extends Cell {
     private final HashMap<Position, Direction> bestDirections;
     private final Orientation wallOrientation;
     private final Board board;
+
     /**
      * @param p Model.Cell position in the map
      */
@@ -64,6 +65,13 @@ public class CellStone extends Cell {
                 Cell wallWest = findWestEndOfTheWall();
                 Cell wallEast = findEastEndOfTheWall();
 
+                if (wallWest.position.equals(h.getWantedPosition()) ||
+                        wallEast.position.equals(h.getWantedPosition())) {
+                    newDirection = h.getDirection().toVertical();
+                    break;
+                }
+
+
                 int distanceByWest = wallWest.distanceWith(hunterPosition)
                         + wallWest.distanceWith(this.treasure);
                 int distanceByEast = wallEast.distanceWith(hunterPosition)
@@ -78,6 +86,15 @@ public class CellStone extends Cell {
             case VERTICAL:
                 Cell wallNorth = findNorthEndOfTheWall();
                 Cell wallSouth = findSouthEndOfTheWall();
+
+                System.err.println(wallNorth.position);
+                System.err.println(h.getWantedPosition());
+
+                if (wallNorth.position.equals(h.getWantedPosition()) ||
+                        wallSouth.position.equals(h.getWantedPosition())) {
+                    newDirection = h.getDirection().toHorizontal();
+                    break;
+                }
 
                 int distanceBySouth = wallSouth.distanceWith(hunterPosition)
                         + wallSouth.distanceWith(this.treasure);
