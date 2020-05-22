@@ -7,6 +7,7 @@ import model.Position;
 import vue.GameWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -46,10 +47,33 @@ public class GameController implements ActionListener {
 
             HashMap<Position, Position> moves = this.board.doRound();
             this.updateCellsLabels(moves);
-            this.updateStatusLabel();
+            if (this.window.getScrollPaneStatus().isVisible()) {
+                this.updateStatusLabel();
+            }
 
             if (!this.board.isWinner()) {
                 this.window.getButtonNextRound().setEnabled(true);
+            }
+            return;
+        }
+
+        if (ev.getSource() == this.window.getButtonHideShowStatus()) {
+            if (this.window.getScrollPaneStatus().isVisible()) {
+                this.window.getScrollPaneStatus().setVisible(false);
+                this.window.getButtonHideShowStatus().setText("Afficher les détails");
+                this.window.getPanelStatus().setPreferredSize(new Dimension(
+                        this.window.getSize().width - 20,
+                        this.window.getPanelStatus().getSize().height - this.window.getScrollPaneStatus().getPreferredSize().height
+                ));
+
+            } else {
+                this.updateStatusLabel();
+                this.window.getScrollPaneStatus().setVisible(true);
+                this.window.getButtonHideShowStatus().setText("Cacher les détails");
+                this.window.getPanelStatus().setPreferredSize(new Dimension(
+                        this.window.getSize().width - 20,
+                        this.window.getPanelStatus().getSize().height + this.window.getScrollPaneStatus().getPreferredSize().height
+                ));
             }
             return;
         }
@@ -58,16 +82,6 @@ public class GameController implements ActionListener {
             this.window.getMenu().setVisible(true);
             this.window.dispose();
         }
-
-//        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
-//            this.board = initiateBoard();
-//            this.initialiseCellLabels();
-//            this.updateStatusLabel();
-//
-//            this.gameWindow.getButtonNextRound().setEnabled(true);
-//            return;
-//        }
-
     }
 
     /**
