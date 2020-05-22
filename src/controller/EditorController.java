@@ -75,7 +75,7 @@ public class EditorController implements ActionListener {
                 if (COLOR_CELL_FREE.equals(background)) {
                     // This is an empty cellFree: should be already defined.
                     // We check that there is no another thing on this cell
-                    if (this.board.getCell(x, y).toString() != "·") {
+                    if (!this.board.getCell(x, y).toString().equals("·")) {
                         this.board.replaceCell(x, y, new CellFree(currentPosition));
                     }
                     continue;
