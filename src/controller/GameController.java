@@ -1,6 +1,9 @@
 package controller;
 
-import model.*;
+import model.Board;
+import model.Cell;
+import model.Hunter;
+import model.Position;
 import vue.GameWindow;
 
 import javax.swing.*;
@@ -9,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+
+import static vue.MenuWindow.*;
 
 /**
  * Treasure chase
@@ -42,10 +47,33 @@ public class GameController implements ActionListener {
 
             HashMap<Position, Position> moves = this.board.doRound();
             this.updateCellsLabels(moves);
-            this.updateStatusLabel();
+            if (this.window.getScrollPaneStatus().isVisible()) {
+                this.updateStatusLabel();
+            }
 
             if (!this.board.isWinner()) {
                 this.window.getButtonNextRound().setEnabled(true);
+            }
+            return;
+        }
+
+        if (ev.getSource() == this.window.getButtonHideShowStatus()) {
+            if (this.window.getScrollPaneStatus().isVisible()) {
+                this.window.getScrollPaneStatus().setVisible(false);
+                this.window.getButtonHideShowStatus().setText("Afficher les détails");
+                this.window.getPanelStatus().setPreferredSize(new Dimension(
+                        this.window.getSize().width - 20,
+                        this.window.getPanelStatus().getSize().height - this.window.getScrollPaneStatus().getPreferredSize().height
+                ));
+
+            } else {
+                this.updateStatusLabel();
+                this.window.getScrollPaneStatus().setVisible(true);
+                this.window.getButtonHideShowStatus().setText("Cacher les détails");
+                this.window.getPanelStatus().setPreferredSize(new Dimension(
+                        this.window.getSize().width - 20,
+                        this.window.getPanelStatus().getSize().height + this.window.getScrollPaneStatus().getPreferredSize().height
+                ));
             }
             return;
         }
@@ -54,16 +82,6 @@ public class GameController implements ActionListener {
             this.window.getMenu().setVisible(true);
             this.window.dispose();
         }
-
-//        if (ev.getSource() == this.gameWindow.getButtonNewGame()) {
-//            this.board = initiateBoard();
-//            this.initialiseCellLabels();
-//            this.updateStatusLabel();
-//
-//            this.gameWindow.getButtonNextRound().setEnabled(true);
-//            return;
-//        }
-
     }
 
     /**
@@ -86,14 +104,14 @@ public class GameController implements ActionListener {
 
             if (originCell.toString().equals("·")) {
                 // else : there is a Hunter on this cell, don't overwrite him
-                originJLabel.setBackground(Color.LIGHT_GRAY);
+                originJLabel.setBackground(COLOR_CELL_FREE);
                 originJLabel.setText("·");
             }
 
             if (this.board.isWinner() && this.board.getTreasure() == destinationCell) {
-                destinationJLabel.setBackground(Color.YELLOW);
+                destinationJLabel.setBackground(COLOR_CELL_HUNTER_WINNER);
             } else {
-                destinationJLabel.setBackground(Color.GRAY);
+                destinationJLabel.setBackground(COLOR_CELL_HUNTER);
             }
             destinationJLabel.setText(destinationCell.toString());
         }
@@ -112,21 +130,21 @@ public class GameController implements ActionListener {
 
                 switch (cell.toString()) {
                     case "·":
-                        labelToUpdate.setBackground(Color.LIGHT_GRAY);
+                        labelToUpdate.setBackground(COLOR_CELL_FREE);
                         labelToUpdate.setText("·");
                         break;
 
                     case "#":
-                        labelToUpdate.setBackground(Color.BLUE);
+                        labelToUpdate.setBackground(COLOR_CELL_STONE);
                         break;
 
                     case "T":
-                        labelToUpdate.setBackground(Color.ORANGE);
+                        labelToUpdate.setBackground(COLOR_CELL_TREASURE);
                         labelToUpdate.setText("T");
                         break;
 
                     default:
-                        labelToUpdate.setBackground(Color.GRAY);
+                        labelToUpdate.setBackground(COLOR_CELL_HUNTER);
                         labelToUpdate.setText(cell.toString());
                 }
             }

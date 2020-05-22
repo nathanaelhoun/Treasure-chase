@@ -4,7 +4,6 @@ import vue.EditorWindow;
 import vue.GameWindow;
 import vue.MenuWindow;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,16 +14,15 @@ import java.awt.event.ActionListener;
  */
 public class MenuController implements ActionListener {
 
-    static final int MAX_BOARD_SURFACE = 5000;
+    static final int MAX_BOARD_SURFACE = 2500;
 
     private final MenuWindow window;
-    private final String originalTextString;
-    private final Color originalColorBackground;
+    private final String ORIGINAL_EDITOR_STATUS_TEXT;
 
     public MenuController(MenuWindow window) {
         this.window = window;
-        this.originalTextString = this.window.getLabelEditorStatus().getText();
-        this.originalColorBackground = this.window.getLabelEditorStatus().getBackground();
+        this.ORIGINAL_EDITOR_STATUS_TEXT = this.window.getTextPaneEditorStatus().getText();
+        this.window.getLabelMaximumValue().setText("Créer son propre terrain, de taille maximum " +  MenuController.MAX_BOARD_SURFACE);
     }
 
     @Override
@@ -40,16 +38,20 @@ public class MenuController implements ActionListener {
         }
 
         if (ev.getSource() == window.getButtonLaunchEditor()) {
-            boolean launchEditor = true;
+            String newline = System.getProperty("line.separator");
+            String errorStr = "";
 
             int width = 0;
             try {
                 width = Integer.parseInt(
                         this.window.getTextFieldEditorWidthValue().getText()
                 );
+
+                if (width <= 5) {
+                    errorStr += "La largeur doit être au moins égale à 5." + newline;
+                }
             } catch (final NumberFormatException e) {
-                this.window.getLabelEditorStatus().setText("La largeur fournie est incorrecte.");
-                launchEditor = false;
+                errorStr += "La largeur fournie est incorrecte." + newline;
             }
 
             int height = 0;
@@ -57,24 +59,27 @@ public class MenuController implements ActionListener {
                 height = Integer.parseInt(
                         this.window.getTextFieldEditorHeightValue().getText()
                 );
+
+                if (height <= 5) {
+                    errorStr += "La hauteur doit être au moins égale à 5." + newline;
+                }
             } catch (final NumberFormatException e) {
-                this.window.getLabelEditorStatus().setText("La hauteur fournie est incorrecte.");
-                launchEditor = false;
+                errorStr += "La hauteur fournie est incorrecte." + newline;
             }
 
-            if (width * height > MAX_BOARD_SURFACE) {
-                this.window.getLabelEditorStatus().setText("La grille demandée est trop grande.");
-                launchEditor = false;
+            if (errorStr.equals("") && width * height > MAX_BOARD_SURFACE) {
+                errorStr = "La grille demandée est trop grande." + newline;
             }
 
-            if (launchEditor) {
-                this.window.getLabelEditorStatus().setText(originalTextString);
-                this.window.getLabelEditorStatus().setBackground(originalColorBackground);
+            if (errorStr.equals("")) {
+                this.window.getTextPaneEditorStatus().setText(ORIGINAL_EDITOR_STATUS_TEXT);
+                this.window.getTextPaneEditorStatus().setBackground(MenuWindow.COLOR_BG_DEFAULT);
                 this.window.setVisible(false);
                 EditorWindow editor = new EditorWindow(this.window, width, height);
                 editor.start();
             } else {
-                this.window.getLabelEditorStatus().setBackground(Color.RED);
+                this.window.getTextPaneEditorStatus().setBackground(MenuWindow.COLOR_BG_ERROR);
+                this.window.getTextPaneEditorStatus().setText(errorStr.substring(0, errorStr.length() - 1));
             }
         }
     }

@@ -9,6 +9,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static vue.MenuWindow.*;
+
 /**
  * Treasure chase
  * <p>
@@ -22,9 +24,11 @@ public class GameWindow extends JFrame {
 
     private final JButton buttonGoToMenu;
     private final JButton buttonNextRound;
-    //    private final JButton buttonNewGame;
+    private final JButton buttonHideShowStatus;
     private final ArrayList<ArrayList<JLabel>> cellLabels;
     private final JTextArea labelStatus;
+    private final JScrollPane scrollPaneStatus;
+    private final JPanel panelStatus;
 
     /**
      * Initialize the view
@@ -53,31 +57,22 @@ public class GameWindow extends JFrame {
 
         Container container = this.getContentPane();
 
-        // Main panels
-        JPanel actionPanel = new JPanel();
-        container.add("North", actionPanel);
-
-        JPanel boardPanel = new JPanel(new GridLayout(controller.getBoardHeight() + 2, controller.getBoardWidth() + 2));
-        container.add("Center", boardPanel);
-
-        JPanel statusPanel = new JPanel();
-        container.add("South", statusPanel);
-
         // Top panel : button ------------------------------
         this.buttonGoToMenu = new JButton("Retour au menu");
         this.buttonGoToMenu.addActionListener(controller);
-        actionPanel.add(this.buttonGoToMenu);
 
         this.buttonNextRound = new JButton("Tour suivant");
         this.buttonNextRound.addActionListener(controller);
+
+        JPanel actionPanel = new JPanel();
+        container.add("North", actionPanel);
+        actionPanel.add(this.buttonGoToMenu);
         actionPanel.add(this.buttonNextRound);
 
-//        this.buttonNewGame = new JButton("Nouvelle partie");
-//        this.buttonNewGame.addActionListener(this.controller);
-//        actionPanel.add(this.buttonNewGame);
-
-
         // Middle panel : board ------------------------------
+        JPanel boardPanel = new JPanel(new GridLayout(controller.getBoardHeight() + 2, controller.getBoardWidth() + 2));
+        container.add("Center", boardPanel);
+
         Border border = LineBorder.createBlackLineBorder();
 
         for (int y = 0; y < controller.getBoardHeight() + 2; y++) {
@@ -88,12 +83,14 @@ public class GameWindow extends JFrame {
                 newCellLabel.setBorder(border);
 
                 if ((x == 0 || x == controller.getBoardWidth() + 1)) {
-                    newCellLabel.setBackground(Color.RED);
+                    newCellLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellLabel.setForeground(COLOR_CELL_SIDE_FG);
                     if (!(y == 0 || y == controller.getBoardHeight() + 1)) {
                         newCellLabel.setText(Integer.toString(y));
                     }
                 } else if (y == 0 || y == controller.getBoardHeight() + 1) {
-                    newCellLabel.setBackground(Color.RED);
+                    newCellLabel.setBackground(COLOR_CELL_SIDE);
+                    newCellLabel.setForeground(COLOR_CELL_SIDE_FG);
                     newCellLabel.setText(Integer.toString(x));
                 } else {
                     this.cellLabels.get(y - 1).add(newCellLabel);
@@ -106,18 +103,32 @@ public class GameWindow extends JFrame {
         controller.initialiseCellLabels();
 
         // Bottom panel : status ------------------------------
+        this.buttonHideShowStatus = new JButton("Afficher les détails");
+        this.buttonHideShowStatus.addActionListener(controller);
+
         this.labelStatus = new JTextArea();
         this.labelStatus.setEditable(true);
         this.labelStatus.setColumns(50);
-        this.labelStatus.setBackground(statusPanel.getBackground());
-        statusPanel.add(labelStatus);
+        this.labelStatus.setBackground(COLOR_BG_DEFAULT);
+        this.labelStatus.setEditable(false);
 
-        controller.updateStatusLabel();
+        this.scrollPaneStatus = new JScrollPane(labelStatus);
+        this.scrollPaneStatus.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.scrollPaneStatus.setVisible(false);
+        this.scrollPaneStatus.setPreferredSize(new Dimension(
+                this.getSize().width - 40,
+                60
+        ));
+
+        panelStatus = new JPanel();
+        panelStatus.add(buttonHideShowStatus);
+        panelStatus.add(scrollPaneStatus);
+        panelStatus.setPreferredSize(new Dimension(
+                this.getSize().width - 20,
+                40
+        ));
+        container.add("South", panelStatus);
     }
-
-//    public JButton getButtonNewGame() {
-//        return this.buttonNewGame;
-//    }
 
     public JButton getButtonGoToMenu() {
         return this.buttonGoToMenu;
@@ -137,5 +148,17 @@ public class GameWindow extends JFrame {
 
     public MenuWindow getMenu() {
         return this.menu;
+    }
+
+    public JButton getButtonHideShowStatus() {
+        return buttonHideShowStatus;
+    }
+
+    public JScrollPane getScrollPaneStatus() {
+        return scrollPaneStatus;
+    }
+
+    public JPanel getPanelStatus() {
+        return panelStatus;
     }
 }

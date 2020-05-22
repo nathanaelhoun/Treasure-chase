@@ -336,4 +336,12 @@ public class Board {
         this.hunters.add(newHunter);
         return newHunter;
     }
+
+    /**
+     * Remove previously saved informations
+     */
+    public void cleanup() {
+        this.hunters.clear();
+        this.treasure = null;
+    }
 }

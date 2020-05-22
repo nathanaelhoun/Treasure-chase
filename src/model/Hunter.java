@@ -69,20 +69,22 @@ public class Hunter {
     public Position getWantedPosition() {
         Position wantedPosition = new Position(this.currentCell.getPosition().getX(), this.currentCell.getPosition().getY());
 
-        if (this.direction == Direction.NORTH || this.direction == Direction.NORTH_EAST || this.direction == Direction.NORTH_WEST) {
-            wantedPosition.setY(wantedPosition.getY() - 1);
+        switch(this.direction.toVertical()) {
+            case NORTH:
+                wantedPosition.setY(wantedPosition.getY() - 1);
+                break;
+            case SOUTH:
+                wantedPosition.setY(wantedPosition.getY() + 1);
+                break;
         }
 
-        if (this.direction == Direction.SOUTH || this.direction == Direction.SOUTH_EAST || this.direction == Direction.SOUTH_WEST) {
-            wantedPosition.setY(wantedPosition.getY() + 1);
-        }
-
-        if (this.direction == Direction.WEST || this.direction == Direction.NORTH_WEST || this.direction == Direction.SOUTH_WEST) {
-            wantedPosition.setX(wantedPosition.getX() - 1);
-        }
-
-        if (this.direction == Direction.EAST || this.direction == Direction.NORTH_EAST || this.direction == Direction.SOUTH_EAST) {
-            wantedPosition.setX(wantedPosition.getX() + 1);
+        switch(this.direction.toHorizontal()) {
+            case WEST:
+                wantedPosition.setX(wantedPosition.getX() - 1);
+                break;
+            case EAST:
+                wantedPosition.setX(wantedPosition.getX() + 1);
+                break;
         }
 
         return wantedPosition;

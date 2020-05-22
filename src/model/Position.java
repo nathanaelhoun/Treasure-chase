@@ -45,6 +45,11 @@ public class Position {
         this.y = y;
     }
 
+    public boolean equals(Position that) {
+        return this.x == that.x && this.y == that.y;
+    }
+
+    @Override
     public String toString() {
         return "[" + this.x + " " + this.y + "]";
     }

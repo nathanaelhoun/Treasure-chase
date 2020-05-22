@@ -3,6 +3,7 @@ package vue;
 import controller.MenuController;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Treasure chase
@@ -15,14 +16,27 @@ import javax.swing.*;
  */
 public class MenuWindow extends JFrame {
 
+    static public final Color COLOR_BG_ERROR = Color.ORANGE;
+    static public final Color COLOR_BG_DEFAULT = new Color(238, 238, 238);
+
+    // Theses colors must be different from each others
+    static public final Color COLOR_CELL_FREE = Color.LIGHT_GRAY;
+    static public final Color COLOR_CELL_TREASURE = Color.ORANGE;
+    static public final Color COLOR_CELL_HUNTER = Color.GRAY;
+    static public final Color COLOR_CELL_HUNTER_WINNER = Color.YELLOW;
+    static public final Color COLOR_CELL_STONE = Color.BLUE;
+    static public final Color COLOR_CELL_SIDE = Color.DARK_GRAY;
+    static public final Color COLOR_CELL_SIDE_FG = Color.WHITE;
+
     private JPanel panelMain;
 
     private JButton buttonNewGame1;
     private JButton buttonLaunchEditor;
     private JFormattedTextField textFieldEditorWidth;
     private JFormattedTextField textFieldEditorHeight;
-    private JLabel labelEditorStatus;
+    private JTextPane textPaneEditorStatus;
     private JButton buttonQuit;
+    private JLabel labelMaximumValue;
 
     public MenuWindow() {
         super("Menu | Treasure Chase — Nathanaël Houn");
@@ -35,6 +49,8 @@ public class MenuWindow extends JFrame {
         buttonNewGame1.addActionListener(controller);
         buttonLaunchEditor.addActionListener(controller);
         buttonQuit.addActionListener(controller);
+        textPaneEditorStatus.setBackground(COLOR_BG_DEFAULT);
+        textPaneEditorStatus.setMargin( new Insets(10,10,10,10) );
 
         this.setContentPane(this.panelMain);
     }
@@ -59,8 +75,9 @@ public class MenuWindow extends JFrame {
         return textFieldEditorWidth;
     }
 
-    public JLabel getLabelEditorStatus() {
-        return labelEditorStatus;
+    public JTextPane getTextPaneEditorStatus() {
+        return textPaneEditorStatus;
     }
 
+    public JLabel getLabelMaximumValue() { return labelMaximumValue; }
 }

@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static vue.MenuWindow.*;
+
 /**
  * Treasure chase Editor
  *
@@ -58,29 +60,41 @@ public class EditorController implements ActionListener {
      * @return a string with the error, or an empty string
      */
     private String buildBoard() {
+        // Cleanup precedent board
+        this.board.cleanup();
+
+        // Build the new board
         for (int y = 1; y <= this.board.HEIGHT; y++) {
             for (int x = 1; x <= this.board.WIDTH; x++) {
                 JLabel currentLabel = this.window.getCellLabels().get(y).get(x);
                 Color background = currentLabel.getBackground();
-                if (Color.RED.equals(background) || Color.LIGHT_GRAY.equals(background)) {
-                    // This is a CellSide or an empty cellFree: already defined
+
+                Position currentPosition = this.board.getCell(x, y).getPosition(); // don't reallocate position
+
+                if (COLOR_CELL_FREE.equals(background)) {
+                    // This is an empty cellFree: should be already defined.
+                    // We check that there is no another thing on this cell
+                    if (!this.board.getCell(x, y).toString().equals("·")) {
+                        this.board.replaceCell(x, y, new CellFree(currentPosition));
+                    }
                     continue;
                 }
 
-                if (Color.ORANGE.equals(background)) {
-                    this.board.replaceCell(x, y, new CellTreasure(new Position(x, y)));
-                } else if (Color.GRAY.equals(background)) {
+                if (COLOR_CELL_TREASURE.equals(background)) {
+                    this.board.replaceCell(x, y, new CellTreasure(currentPosition));
+
+                } else if (COLOR_CELL_HUNTER.equals(background)) {
                     Hunter newHunter = this.board.addHunter("");
                     ((CellFree) this.board.getCell(x, y)).setCurrentHunter(newHunter);
                     newHunter.setCurrentCell(this.board.getCell(x, y));
-                } else if (Color.BLUE.equals(background)) {
 
-                    Position currentPos = new Position(x, y);
+                } else if (COLOR_CELL_STONE.equals(background)) {
+
                     CellStone.Orientation detectedOrientation = null;
 
                     // Detect the orientation of the wall with the adjacent labels
                     for (Direction dir : Direction.getCardinalPoints()) {
-                        Position testedPos = currentPos.computePosition(dir);
+                        Position testedPos = currentPosition.computePosition(dir);
 
                         if (testedPos.getX() == 0 ||
                                 testedPos.getX() == this.board.WIDTH + 1 ||
@@ -92,7 +106,7 @@ public class EditorController implements ActionListener {
 
                         JLabel testedLabel = this.window.getCellLabels().get(testedPos.getY()).get(testedPos.getX());
 
-                        if (testedLabel.getBackground().equals(Color.BLUE)) {
+                        if (testedLabel.getBackground().equals(COLOR_CELL_STONE)) {
                             if (detectedOrientation == null) {
                                 detectedOrientation = orientationFromCardinalDirection(dir);
                             } else if (!detectedOrientation.equals(orientationFromCardinalDirection(dir))) {
@@ -106,7 +120,7 @@ public class EditorController implements ActionListener {
                         detectedOrientation = CellStone.Orientation.VERTICAL;
                     }
 
-                    this.board.replaceCell(x, y, new CellStone(new Position(x, y), detectedOrientation, this.board));
+                    this.board.replaceCell(x, y, new CellStone(currentPosition, detectedOrientation, this.board));
 
                 } else {
                     System.err.println("Erreur lors du parcours du tableau de l'éditeur à la case (" + x + ", " + y + "). Couleur inconnue : " + currentLabel.getBackground());
